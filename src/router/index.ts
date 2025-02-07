@@ -3,6 +3,10 @@ import HomePage from '@/pages/HomePage.vue'
 import UserLoginPage from '@/pages/user/userLoginPage.vue'
 import UserRegisterPage from '@/pages/user/userRegisterPage.vue'
 import UserManagePage from '@/pages/admin/userManagePage.vue'
+import PictureManagePage from '@/pages/admin/pictureManagePage.vue'
+
+// 懒加载
+const AddPicturePage = () => import('@/pages/AddPicturePage.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,6 +15,11 @@ const router = createRouter({
       path: '/',
       name: '主页',
       component: HomePage,
+    },
+    {
+      path: '/add_picture',
+      name: '创建图片',
+      component: AddPicturePage,
     },
     {
       path: '/user/login',
@@ -26,6 +35,11 @@ const router = createRouter({
       path: '/admin/userManage',
       name: '用户管理',
       component: UserManagePage,
+    },
+    {
+      path: '/admin/pictureManage',
+      name: '图片管理',
+      component: PictureManagePage,
     },
     {
       path: '/about',
