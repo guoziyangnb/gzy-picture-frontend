@@ -82,8 +82,12 @@
         </template>
         <template v-else-if="column.key === 'action'">
           <a-space>
-            <a-button :href="`/add_picture?id=${record.id}`" target="_blank">编辑</a-button>
-            <a-button danger @click="doDelete(record.id)">删除</a-button>
+            <a-space>
+              <a-button type="link" :href="`/add_picture?id=${record.id}`" target="_blank"
+                >编辑</a-button
+              >
+              <a-button type="link" danger @click="doDelete(record.id)">删除</a-button>
+            </a-space>
           </a-space>
         </template>
       </template>
@@ -125,6 +129,7 @@ const columns = [
   {
     title: '标签',
     dataIndex: 'tags',
+    width: 280,
   },
   {
     title: '图片信息',
@@ -221,6 +226,6 @@ const doDelete = async (id: number) => {
 
 <style lang="scss" scoped>
 #userManagePage {
-  padding: 20px;
+  padding: 20px 20px 50px;
 }
 </style>

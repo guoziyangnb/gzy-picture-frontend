@@ -37,7 +37,6 @@ dayjs.locale('zh-cn')
   }
   .content {
     background: linear-gradient(to right, #fefefe, #fff);
-    // margin-bottom: 28px;
     padding: 20px;
   }
   .footer {

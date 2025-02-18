@@ -4,6 +4,7 @@ import UserLoginPage from '@/pages/user/userLoginPage.vue'
 import UserRegisterPage from '@/pages/user/userRegisterPage.vue'
 import UserManagePage from '@/pages/admin/userManagePage.vue'
 import PictureManagePage from '@/pages/admin/pictureManagePage.vue'
+import PictureDetailPage from '@/pages/PictureDetailPage.vue'
 
 // 懒加载
 const AddPicturePage = () => import('@/pages/AddPicturePage.vue')
@@ -40,6 +41,12 @@ const router = createRouter({
       path: '/admin/pictureManage',
       name: '图片管理',
       component: PictureManagePage,
+    },
+    {
+      path: '/picture/:id',
+      name: '图片详情',
+      component: PictureDetailPage,
+      props: true,
     },
     {
       path: '/about',
