@@ -2,6 +2,9 @@ import { getLoginUserUsingGet } from '@/service/api/userController'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+/**
+ * 存储登录用户信息的全局状态
+ */
 export const useLoginUserStore = defineStore('loginUser', () => {
   const loginUser = ref<API.LoginUserVO>({
     userName: '未登录',
@@ -19,6 +22,10 @@ export const useLoginUserStore = defineStore('loginUser', () => {
     // }, 3000)
   }
 
+  /**
+   * 设置登录用户信息
+   * @param newLoginUser 新的登录用户信息
+   */
   function setLoginUser(newLoginUser: API.LoginUserVO) {
     loginUser.value = newLoginUser
   }
