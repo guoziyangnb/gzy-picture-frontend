@@ -1,0 +1,27 @@
+name: Sync from Gitee
+
+on:
+  repository_dispatch:  # 监听 repository_dispatch 事件
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取所有历史记录
+          
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "action@github.com"
+          
+      - name: Add Gitee remote
+        run: git remote add gitee https://gitee.com/yangLLHGS/gzy-picture-frontend.git
+        
+      - name: Fetch from Gitee
+        run: git fetch gitee
+        
+      - name: Push to GitHub
+        run: git push --force origin 'refs/remotes/gitee/*:refs/heads/*'
