@@ -1,10 +1,5 @@
 <script lang="ts" setup>
 import GlobalHeader from '@/components/GlobalHeader.vue'
-//ant组件默认设置中文
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import dayjs from 'dayjs'
-import 'dayjs/locale/zh-cn'
-dayjs.locale('zh-cn')
 </script>
 
 <template>
@@ -12,10 +7,7 @@ dayjs.locale('zh-cn')
     <a-layout style="height: 100vh">
       <a-layout-header class="header"><GlobalHeader /> </a-layout-header>
       <a-layout-content class="content">
-        <!-- a-config-provider :locale="zhCN" 设置组件，可以设置语言、主题等 -->
-        <a-config-provider :locale="zhCN">
-          <router-view />
-        </a-config-provider>
+        <router-view />
       </a-layout-content>
 
       <a-layout-footer class="footer">

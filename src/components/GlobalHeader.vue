@@ -19,10 +19,11 @@
           @click="doMenuClick"
         />
       </a-col>
-      <a-col flex="120px">
+      <a-col flex="250px">
         <div class="user-login-status">
           <div v-if="loginUserStore.loginUser.id">
             <a-dropdown>
+              <!-- a-dropdown组件有点问题，他不能有多个元素，所以需要把多余的用<a-space>组件抱起来 -->
               <a-space>
                 <a-avatar :src="loginUserStore.loginUser.userAvatar" />
                 {{ loginUserStore.loginUser.userName ?? '无名' }}
@@ -40,6 +41,22 @@
           <div v-else>
             <a-button type="primary" href="/user/login">登录</a-button>
           </div>
+          <div class="language-selector">
+            <a-dropdown-button type="primary" :trigger="['click']" @click.prevent>
+              {{ localeStore.languageName }}
+              <template #overlay>
+                <a-menu @click="doLanguageChange">
+                  <a-menu-item
+                    v-for="locale in Object.keys(LOCALE_ENUM)"
+                    :key="locale"
+                    @click="doLanguageChange(locale)"
+                  >
+                    {{ LOCALE_ENUM[locale] }}
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown-button>
+          </div>
         </div>
       </a-col>
     </a-row>
@@ -54,10 +71,14 @@ import { useLoginUserStore } from '@/stores/useLoginUserStore'
 import { userLogoutUsingPost } from '@/service/api/userController'
 import { message } from 'ant-design-vue'
 import { computed } from 'vue'
+import { useLocaleStore } from '@/stores/useLocaleStore'
+import type { SupportedLocaleKey } from '@/stores/useLocaleStore'
+import LOCALE_ENUM from '@/config/localeEnum'
 
 const router = useRouter() //路由对象
 const loginUserStore = useLoginUserStore() // 登录用户状态
 loginUserStore.fetchLoginUser() // 获取登录用户信息
+const localeStore = useLocaleStore() // 语言状态
 
 // 当前选中菜单
 const current = ref<string[]>([])
@@ -124,16 +145,21 @@ const doMenuClick = ({ key }: { key: string }) => {
 // 退出登录
 const doLogout = async () => {
   const res = await userLogoutUsingPost()
-  console.log(res)
+  // console.log(res)
   if (res.data.code === 0) {
     loginUserStore.setLoginUser({
       userName: '未登录',
     })
     message.success('退出登录成功')
-    await router.push('/user/login')
+    await router.push('/user/login') //这是一个异步事件
   } else {
     message.error('退出登录失败，' + res.data.message)
   }
+}
+
+// 切换语言
+const doLanguageChange: MenuProps['onClick'] = ({ key }) => {
+  localeStore.setLocale(key as SupportedLocaleKey)
 }
 </script>
 
@@ -150,6 +176,16 @@ const doLogout = async () => {
 
     .logo {
       height: 48px;
+    }
+  }
+
+  .user-login-status {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .language-selector {
+      margin-left: 16px;
     }
   }
 }
