@@ -58,6 +58,8 @@ const formState = reactive<API.UserRegisterRequest>({
 const handleSubmit = async (values: any) => {
   if (values.userPassword !== values.checkPassword) {
     message.error('两次密码不一致')
+    formState.userPassword = ''
+    formState.checkPassword = ''
     return
   }
   const res = await userRegisterUsingPost(values)

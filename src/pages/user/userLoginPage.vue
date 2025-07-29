@@ -2,6 +2,7 @@
   <div id="userLoginPage">
     <h2 class="title">阳神云图库 - 用户登录</h2>
     <div class="desc">企业级智能协同云图库</div>
+    <!-- autocomplete表示自动输入,浏览器会根据之前的输入历史自动填充 -->
     <a-form :model="formState" name="basic" autocomplete="off" @finish="handleSubmit">
       <a-form-item name="userAccount" :rules="[{ required: true, message: '请输入账号' }]">
         <a-input v-model:value="formState.userAccount" placeholder="请输入账号" />

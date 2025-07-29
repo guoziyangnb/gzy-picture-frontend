@@ -1,3 +1,6 @@
+/**
+ * 全局的用户权限配置
+ */
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
 import { message } from 'ant-design-vue'
 import router from '@/router'
@@ -17,7 +20,9 @@ router.beforeEach(async (to, from, next) => {
     loginUser = loginUserStore.loginUser
     firstFetchLoginUser = false
   }
+  // 拿到完整的路由
   const toUrl = to.fullPath
+  // 自定义权限校验规则
   if (toUrl.startsWith('/admin')) {
     if (!loginUser || loginUser.userRole !== 'admin') {
       message.error('没有权限，请先登录！')

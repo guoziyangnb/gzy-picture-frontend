@@ -10,6 +10,9 @@ export const useLoginUserStore = defineStore('loginUser', () => {
     userName: '未登录',
   })
 
+  /**
+   * 获取登录用户
+   */
   async function fetchLoginUser() {
     // todo 由于后端还没提供接口，暂时注释
     const res = await getLoginUserUsingGet()
