@@ -41,16 +41,13 @@
           <div v-else>
             <a-button type="primary" href="/user/login">登录</a-button>
           </div>
+          <!-- 语言国际化 -->
           <div class="language-selector">
             <a-dropdown-button type="primary" :trigger="['click']" @click.prevent>
               {{ localeStore.languageName }}
               <template #overlay>
                 <a-menu @click="doLanguageChange">
-                  <a-menu-item
-                    v-for="locale in Object.keys(LOCALE_ENUM)"
-                    :key="locale"
-                    @click="doLanguageChange(locale)"
-                  >
+                  <a-menu-item v-for="locale in Object.keys(LOCALE_ENUM)" :key="locale">
                     {{ LOCALE_ENUM[locale] }}
                   </a-menu-item>
                 </a-menu>
@@ -63,8 +60,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { h, ref } from 'vue'
-import { HomeOutlined, LogoutOutlined, InsertRowAboveOutlined } from '@ant-design/icons-vue'
+import { ref } from 'vue'
+import { LogoutOutlined } from '@ant-design/icons-vue'
 import type { MenuProps } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
@@ -74,11 +71,27 @@ import { computed } from 'vue'
 import { useLocaleStore } from '@/stores/useLocaleStore'
 import type { SupportedLocaleKey } from '@/stores/useLocaleStore'
 import LOCALE_ENUM from '@/config/localeEnum'
+import checkAccess from '@/access/checkAccess'
 
 const router = useRouter() //路由对象
 const loginUserStore = useLoginUserStore() // 登录用户状态
 loginUserStore.fetchLoginUser() // 获取登录用户信息
 const localeStore = useLocaleStore() // 语言状态
+
+/**
+ * 将路由项转换为菜单项，以便进行权限校验
+ * @param item 路由项
+ */
+const RouteToMenuItem = (item: any) => {
+  // 是否是主页?
+  // const isHome = item.path === '/'
+  return {
+    key: item.path,
+    label: item.meta.label ? item.meta.label : item.name,
+    title: item.name,
+    icon: item.meta?.icon ? item.meta?.icon : undefined, // 仅在主页路径时显示 icon
+  }
+}
 
 // 当前选中菜单
 const current = ref<string[]>([])
@@ -88,52 +101,69 @@ router.afterEach((to, from, next) => {
 })
 
 //原始菜单数据
-const originItems = [
-  {
-    key: '/',
-    icon: () => h(HomeOutlined),
-    label: '主页',
-    title: '主页',
-  },
-  {
-    key: '/add_picture',
-    label: '创建图片',
-    title: '创建图片',
-  },
-  {
-    key: '/admin/userManage',
-    icon: () => h(InsertRowAboveOutlined),
-    label: '用户管理',
-    title: '用户管理',
-  },
-  {
-    key: '/admin/pictureManage',
-    label: '图片管理',
-    title: '图片管理',
-  },
-  {
-    key: 'others',
-    label: h('a', { href: 'https://www.codefather.cn', target: '_blank' }, '编程导航'),
-    title: '编程导航',
-  },
-]
+// const originItems = [
+//   {
+//     key: '/',
+//     icon: () => h(HomeOutlined),
+//     label: '主页',
+//     title: '主页',
+//   },
+//   {
+//     key: '/add_picture',
+//     label: '创建图片',
+//     title: '创建图片',
+//   },
+//   {
+//     key: '/admin/userManage',
+//     icon: () => h(InsertRowAboveOutlined),
+//     label: '用户管理',
+//     title: '用户管理',
+//   },
+//   {
+//     key: '/admin/pictureManage',
+//     label: '图片管理',
+//     title: '图片管理',
+//   },
+//   {
+//     key: 'others',
+//     label: h('a', { href: 'https://www.codefather.cn', target: '_blank' }, '编程导航'),
+//     title: '编程导航',
+//   },
+// ]
 
-// 过滤菜单数据
-const filterItems = (items = [] as MenuProps['items']) => {
-  return items?.filter((item) => {
-    // 过滤掉不需要显示的菜单
-    if (
-      item?.key?.toString().startsWith('/admin') &&
-      loginUserStore.loginUser.userRole !== 'admin'
-    ) {
-      return false
-    }
-    return true
-  })
-}
+// // 过滤菜单数据
+// const filterItems = (items = [] as MenuProps['items']) => {
+//   return items?.filter((item) => {
+//     // 过滤掉不需要显示的菜单
+//     if (
+//       item?.key?.toString().startsWith('/admin') &&
+//       loginUserStore.loginUser.userRole !== 'admin'
+//     ) {
+//       return false
+//     }
+//     return true
+//   })
+// }
 
 // 处理后的菜单数据
-const items = computed(() => filterItems(originItems))
+// const items = computed(() => filterItems(originItems))
+// 过滤菜单项
+const items = computed(() => {
+  /**computed 在组件初始化时立即执行**/
+  const routes = router.getRoutes()
+  // console.log(routes)
+
+  return routes
+    .filter((item) => {
+      // 如果菜单需要隐藏那就隐藏
+      if (item.meta?.hideInMenu) {
+        return false
+      }
+      // 根据权限过滤菜单，有权限则返回 true，则保留该菜单
+      return checkAccess(loginUserStore.loginUser, item.meta?.access as string)
+    })
+    .map(RouteToMenuItem) // 转换为菜单项格式
+})
 
 // 菜单路由跳转事件
 const doMenuClick = ({ key }: { key: string }) => {
