@@ -73,6 +73,7 @@ const onSuccess = (newPicture: API.PictureVO) => {
   pictureForm.name = newPicture.name ?? ''
 }
 
+// 用来跳转路由，beforEach等用的
 const router = useRouter()
 
 /**
@@ -132,9 +133,10 @@ onMounted(() => {
   getTagCategoryOptions()
 })
 
+// 获取页面信息，比如页面路由、页面的元信息
 const route = useRoute()
 
-// 获取老数据
+// 获取图片的数据
 const getOldPicture = async () => {
   // 获取数据
   const id = route.query?.id

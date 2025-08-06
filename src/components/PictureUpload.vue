@@ -1,3 +1,6 @@
+<!-- 
+  图片上传组件
+-->
 <template>
   <div class="picture-upload">
     <a-upload
@@ -33,7 +36,7 @@ const props = defineProps<Props>()
 const loading = ref<boolean>(false)
 
 /**
- * 上传
+ * 自定义上传
  * @param file
  */
 const handleUpload = async ({ file }: any) => {
@@ -43,7 +46,7 @@ const handleUpload = async ({ file }: any) => {
     const res = await uploadPictureUsingPost(params, {}, file)
     if (res.data.code === 0 && res.data.data) {
       message.success('图片上传成功')
-      // 将上传成功的图片信息传递给父组件
+      // 将上传成功的图片信息传递给父组件，父组件执行onSuccess方法
       props.onSuccess?.(res.data.data)
     } else {
       message.error('图片上传失败，' + res.data.message)
@@ -56,19 +59,25 @@ const handleUpload = async ({ file }: any) => {
   }
 }
 
+/**
+ * 上传前的校验
+ * @param file
+ */
 const beforeUpload = (file: UploadProps['fileList'][number]) => {
+  // 校验图片格式
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   if (!isJpgOrPng) {
     message.error('不支持该格式的图片，推荐 jpg 或 png')
   }
-  const isLt2M = file.size / 1024 / 1024 < 2
-  if (!isLt2M) {
-    message.error('不能上传超过2MB的图片!')
+  const isLt10M = file.size / 1024 / 1024 < 10
+  if (!isLt10M) {
+    message.error('不能上传超过10MB的图片!')
   }
-  return isJpgOrPng && isLt2M
+  return isJpgOrPng && isLt10M
 }
 </script>
 <style lang="scss" scoped>
+// .deep([类名])深度覆盖
 .picture-upload :deep(.ant-upload) {
   width: 100% !important;
   height: 100% !important;
