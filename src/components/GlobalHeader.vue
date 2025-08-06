@@ -153,16 +153,25 @@ const items = computed(() => {
   const routes = router.getRoutes()
   // console.log(routes)
 
-  return routes
-    .filter((item) => {
-      // 如果菜单需要隐藏那就隐藏
-      if (item.meta?.hideInMenu) {
-        return false
-      }
-      // 根据权限过滤菜单，有权限则返回 true，则保留该菜单
-      return checkAccess(loginUserStore.loginUser, item.meta?.access as string)
-    })
-    .map(RouteToMenuItem) // 转换为菜单项格式
+  return (
+    routes
+      .filter((item) => {
+        // 如果菜单需要隐藏那就隐藏
+        if (item.meta?.hideInMenu) {
+          return false
+        }
+        // 根据权限过滤菜单，有权限则返回 true，则保留该菜单
+        return checkAccess(loginUserStore.loginUser, item.meta?.access as string)
+      })
+      // 新增排序逻辑：按 meta.menuOrder 升序排列
+      .sort((a, b) => {
+        // 处理可能不存在 menuOrder 的情况（默认排到后面）不存在时用 Infinity（js表示无穷大保证为数字类型）
+        const orderA = Number(a.meta?.menuOrder) || Infinity
+        const orderB = Number(b.meta?.menuOrder) || Infinity
+        return orderA - orderB // 升序排列（从小到大）
+      })
+      .map(RouteToMenuItem)
+  ) // 转换为菜单项格式
 })
 
 // 菜单路由跳转事件

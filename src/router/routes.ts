@@ -17,6 +17,7 @@ export const routes = [
     name: '主页',
     component: HomePage,
     meta: {
+      menuOrder: 1,
       icon: () => h(HomeOutlined),
     },
   },
@@ -49,6 +50,7 @@ export const routes = [
     name: '用户管理',
     component: UserManagePage,
     meta: {
+      menuOrder: 2,
       access: ACCESS_ENUM.ADMIN, //该菜单项需要管理员权限的
       icon: () => h(InsertRowAboveOutlined),
     },
@@ -58,6 +60,7 @@ export const routes = [
     name: '图片管理',
     component: PictureManagePage,
     meta: {
+      menuOrder: 3,
       access: ACCESS_ENUM.ADMIN,
       icon: () => h(FileImageOutlined),
     },
@@ -77,6 +80,7 @@ export const routes = [
     //这种写法是按需懒加载的形式，是优化首次打开站点的性能方式
     // component: () => import('../views/AboutView.vue'),
     meta: {
+      menuOrder: 999,
       label: h('a', { href: 'https://www.codefather.cn', target: '_blank' }, '编程导航'),
     },
   },
