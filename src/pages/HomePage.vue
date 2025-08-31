@@ -37,31 +37,37 @@
       :pagination="pagination"
     >
       <template #renderItem="{ item: picture }">
-        <a-list-item>
-          <a-list-item style="padding: 0">
-            <!-- 单张图片 -->
-            <a-card hoverable style="width: 240px" @click="doClickPicture(picture)">
-              <template #cover>
-                <img
-                  style="height: 180px; object-fit: cover"
-                  :alt="picture.name"
-                  :src="picture.url"
-                />
+        <a-list-item style="padding: 0">
+          <!-- 单张图片 -->
+          <a-card
+            hoverable
+            style="width: 240px; border: 2px solid #ccc"
+            @click="doClickPicture(picture)"
+          >
+            <template #cover>
+              <!-- object-fit: cover 表示图片展示的时候自适应展示 -->
+              <img
+                style="height: 180px; object-fit: cover"
+                :alt="picture.name"
+                :src="picture.url"
+              />
+            </template>
+            <a-card-meta :title="picture.name">
+              <template #description>
+                <!-- <a-flex></a-flex> flex标签组件 -->
+                <a-flex>
+                  <!-- 分类 -->
+                  <a-tag color="green">
+                    {{ picture.category ?? '默认' }}
+                  </a-tag>
+                  <!-- 标签 -->
+                  <a-tag v-for="tag in picture.tags" :key="tag" color="blue">
+                    {{ tag }}
+                  </a-tag>
+                </a-flex>
               </template>
-              <a-card-meta :title="picture.name">
-                <template #description>
-                  <a-flex>
-                    <a-tag color="green">
-                      {{ picture.category ?? '默认' }}
-                    </a-tag>
-                    <a-tag v-for="tag in picture.tags" :key="tag" color="blue">
-                      {{ tag }}
-                    </a-tag>
-                  </a-flex>
-                </template>
-              </a-card-meta>
-            </a-card>
-          </a-list-item>
+            </a-card-meta>
+          </a-card>
         </a-list-item>
       </template>
     </a-list>
@@ -94,7 +100,8 @@ const pagination = computed(() => {
     current: searchParams.current ?? 1,
     pageSize: searchParams.pageSize ?? 12,
     total: total.value,
-    // 切换页号时，会修改搜索参数并获取数据
+    showTotal: (total: number) => `共 ${total} 条`, // 显示总条数
+    // onChange切换页号时，会修改搜索参数并获取数据
     onChange: (page: number, pageSize: number) => {
       searchParams.current = page
       searchParams.pageSize = pageSize
@@ -116,6 +123,7 @@ const fetchData = async () => {
   }
   selectedTagList.value.forEach((useTag, index) => {
     if (useTag) {
+      // 如果选中了则加入
       params.tags.push(tagList.value[index])
     }
   })
@@ -170,6 +178,7 @@ const doClickPicture = (picture) => {
 
 <style lang="scss" scoped>
 #homePage {
+  // padding-bottom: 64px;
   .search-bar {
     max-width: 480px;
     margin: 0 auto 16px;

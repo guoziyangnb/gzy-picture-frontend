@@ -105,7 +105,7 @@ const pagination = computed(() => {
     pageSize: searchParams.pageSize,
     total: total.value,
     showSizeChanger: true, // 显示可改变每页条数
-    showTotal: (total: Number) => `共 ${total} 条`, // 显示总条数
+    showTotal: (total: number) => `共 ${total} 条`, // 显示总条数
   }
 })
 
@@ -158,6 +158,6 @@ const doDelete = async (id: number) => {
 
 <style lang="scss" scoped>
 #userManagePage {
-  padding: 20px 20px 50px;
+  padding: 20px 20px;
 }
 </style>

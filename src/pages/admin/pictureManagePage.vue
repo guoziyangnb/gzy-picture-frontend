@@ -1,5 +1,5 @@
 <template>
-  <div id="userManagePage">
+  <div id="pictureManagePage">
     <a-flex justify="space-between" style="margin-top: -20px">
       <h2>图片管理</h2>
       <a-button type="primary" href="/add_picture" target="_blank">+ 创建图片</a-button>
@@ -58,7 +58,9 @@
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'url'">
-          <a-image :src="record.url" :width="120" />
+          <div style="border-radius: 8px; overflow: hidden; max-width: 120px">
+            <a-image :src="record.url" />
+          </div>
         </template>
         <template v-else-if="column.dataIndex === 'tags'">
           <a-space nowrap>
@@ -163,7 +165,7 @@ const searchParams = reactive<API.PictureQueryRequest>({
   current: 1,
   pageSize: 10,
   sortField: 'createTime',
-  sortOrder: 'ascend',
+  sortOrder: 'descend',
 })
 
 // 表格分页
@@ -173,7 +175,7 @@ const pagination = computed(() => {
     pageSize: searchParams.pageSize,
     total: total.value,
     showSizeChanger: true, // 显示可改变每页条数
-    showTotal: (total: Number) => `共 ${total} 条`, // 显示总条数
+    showTotal: (total: number) => `共 ${total} 条`, // 显示总条数
   }
 })
 
@@ -225,7 +227,7 @@ const doDelete = async (id: number) => {
 </script>
 
 <style lang="scss" scoped>
-#userManagePage {
-  padding: 20px 20px 50px;
+#pictureManagePage {
+  padding: 20px 20px;
 }
 </style>

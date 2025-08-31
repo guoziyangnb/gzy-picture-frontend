@@ -69,7 +69,7 @@ export const routes = [
     path: '/picture/:id',
     name: '图片详情',
     component: PictureDetailPage,
-    props: true,
+    props: true, //这样可以直接通过props.id获取到url上的动态id的信息了
     meta: {
       hideInMenu: true,
     },

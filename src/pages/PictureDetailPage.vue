@@ -1,3 +1,9 @@
+<!-- /**
+  sm：小屏幕设备（如平板），对应屏幕宽度 ≥ 576px
+  md：中等屏幕设备（如小桌面），对应屏幕宽度 ≥ 768px
+  xl：超大屏幕设备（如大桌面），对应屏幕宽度 ≥ 1200px
+  :sm="24" 表示在小屏幕设备上，这个 a-col 占满整个行（24 格，Ant Design 栅格系统默认一行分为 24 格）
+*/ -->
 <template>
   <div id="PictureDetailPage">
     <a-row :gutter="[16, 16]">
@@ -141,14 +147,15 @@ const doDelete = async () => {
 
 // 处理下载
 const doDownload = () => {
-  downloadImage(picture.value.url) //webpack打包后，无法使用window.open，使用downloadImage方法下载图片
+  downloadImage(picture.value.url, picture.value?.name) //webpack打包后，无法使用window.open，使用downloadImage方法下载图片
   // window.open(picture.value.url) 原生方法，适用于电脑端
 }
 </script>
 
 <style lang="scss" scoped>
 #PictureDetailPage {
-  padding: 24px;
+  padding: 16px;
+  // padding-bottom: 64px;
 }
 :deep(.picture-preview .ant-card-body) {
   display: flex;

@@ -4,7 +4,8 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
 
 <template>
   <div id="basicLayout">
-    <a-layout style="height: 100vh">
+    <!-- height: 100vh这里原来是100vh -->
+    <a-layout style="height: 100%">
       <a-layout-header class="header"><GlobalHeader /> </a-layout-header>
       <a-layout-content class="content">
         <router-view />
@@ -30,6 +31,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
   .content {
     background: linear-gradient(to right, #fefefe, #fff);
     padding: 20px;
+    padding-bottom: 64px;
   }
   .footer {
     background: #efefef;
