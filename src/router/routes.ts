@@ -26,7 +26,9 @@ export const routes = [
     name: '创建图片',
     component: AddPicturePage,
     meta: {
-      hideInMenu: true,
+      menuOrder: 3,
+      access: ACCESS_ENUM.NOT_LOGIN,
+      icon: () => h(FileImageOutlined),
     },
   },
   {
@@ -60,7 +62,7 @@ export const routes = [
     name: '图片管理',
     component: PictureManagePage,
     meta: {
-      menuOrder: 3,
+      menuOrder: 4,
       access: ACCESS_ENUM.ADMIN,
       icon: () => h(FileImageOutlined),
     },
