@@ -62,6 +62,15 @@
               </template>
             </a-button>
 
+            <a-button
+              v-if="canReview"
+              :icon="h(EditOutlined)"
+              danger
+              type="primary"
+              @click="handleReview(picture, PIC_REVIEW_STATUS_ENUM.REJECT)"
+            >
+              撤销审核
+            </a-button>
             <a-button v-if="canEdit" :icon="h(EditOutlined)" type="default" @click="doEdit">
               编辑
             </a-button>
@@ -81,11 +90,13 @@ import { message } from 'ant-design-vue'
 import {
   deletePictureUsingPost,
   getPictureVoByIdUsingGet,
+  doPictureReviewUsingPost,
 } from '@/service/api/pictureController.ts'
 import { EditOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import { downloadImage, formatSize } from '@/utils'
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
 import router from '@/router'
+import { PIC_REVIEW_STATUS_ENUM } from '@/constants/picture'
 
 interface Props {
   id: string | number
@@ -127,6 +138,17 @@ const canEdit = computed(() => {
   return loginUser.id === user.id || loginUser.userRole === 'admin'
 })
 
+// 是否具有编辑权限
+const canReview = computed(() => {
+  const loginUser = loginUserStore.loginUser
+  // 未登录不可编辑
+  if (!loginUser.id) {
+    return false
+  }
+  // 管理员且审核通过可编辑
+  return loginUser.userRole === 'admin' && picture.value.reviewStatus === 1
+})
+
 // 编辑
 const doEdit = () => {
   router.push('/add_picture?id=' + picture.value.id)
@@ -149,6 +171,23 @@ const doDelete = async () => {
 const doDownload = () => {
   downloadImage(picture.value.url, picture.value?.name) //webpack打包后，无法使用window.open，使用downloadImage方法下载图片
   // window.open(picture.value.url) 原生方法，适用于电脑端
+}
+
+// 撤销操作
+const handleReview = async (record: API.Picture, reviewStatus: number) => {
+  const reviewMessage = '图片有问题，管理员撤销审核'
+  const res = await doPictureReviewUsingPost({
+    id: record.id,
+    reviewStatus,
+    reviewMessage,
+  })
+  if (res.data.code === 0) {
+    message.success('撤销操作成功')
+    // 重新获取详细数据
+    fetchPictureDetail()
+  } else {
+    message.error('撤销操作失败，' + res.data.message)
+  }
 }
 </script>
 

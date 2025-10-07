@@ -215,6 +215,7 @@ declare namespace API {
     picScale?: number
     picSize?: number
     picWidth?: number
+    reviewStatus?: number
     tags?: string[]
     updateTime?: string
     url?: string

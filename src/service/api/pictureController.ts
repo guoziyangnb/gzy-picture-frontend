@@ -5,7 +5,7 @@ import request from '@/service/request'
 /** deletePicture POST /api/picture/delete */
 export async function deletePictureUsingPost(
   body: API.DeleteRequest,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.BaseResponseBoolean_>('/api/picture/delete', {
     method: 'POST',
@@ -20,7 +20,7 @@ export async function deletePictureUsingPost(
 /** editPicture POST /api/picture/edit */
 export async function editPictureUsingPost(
   body: API.PictureEditRequest,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.BaseResponseBoolean_>('/api/picture/edit', {
     method: 'POST',
@@ -36,7 +36,7 @@ export async function editPictureUsingPost(
 export async function getPictureByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getPictureByIdUsingGETParams,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.BaseResponsePicture_>('/api/picture/get', {
     method: 'GET',
@@ -51,7 +51,7 @@ export async function getPictureByIdUsingGet(
 export async function getPictureVoByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getPictureVOByIdUsingGETParams,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.BaseResponsePictureVO_>('/api/picture/get/vo', {
     method: 'GET',
@@ -65,7 +65,7 @@ export async function getPictureVoByIdUsingGet(
 /** listPictureByPage POST /api/picture/list/page */
 export async function listPictureByPageUsingPost(
   body: API.PictureQueryRequest,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.BaseResponsePagePicture_>('/api/picture/list/page', {
     method: 'POST',
@@ -80,7 +80,7 @@ export async function listPictureByPageUsingPost(
 /** listPictureVOByPage POST /api/picture/list/page/vo */
 export async function listPictureVoByPageUsingPost(
   body: API.PictureQueryRequest,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.BaseResponsePagePictureVO_>('/api/picture/list/page/vo', {
     method: 'POST',
@@ -95,7 +95,7 @@ export async function listPictureVoByPageUsingPost(
 /** doPictureReview POST /api/picture/review */
 export async function doPictureReviewUsingPost(
   body: API.PictureReviewRequest,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.BaseResponseBoolean_>('/api/picture/review', {
     method: 'POST',
@@ -118,7 +118,7 @@ export async function listPictureTagCategoryUsingGet(options?: { [key: string]: 
 /** updatePicture POST /api/picture/update */
 export async function updatePictureUsingPost(
   body: API.PictureUpdateRequest,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.BaseResponseBoolean_>('/api/picture/update', {
     method: 'POST',
@@ -136,7 +136,7 @@ export async function uploadPictureUsingPost(
   params: API.uploadPictureUsingPOSTParams,
   body: {},
   file?: File,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   const formData = new FormData()
 
