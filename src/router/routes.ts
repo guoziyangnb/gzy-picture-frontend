@@ -10,6 +10,7 @@ import { HomeOutlined, InsertRowAboveOutlined, FileImageOutlined } from '@ant-de
 
 // 懒加载
 const AddPicturePage = () => import('@/pages/AddPicturePage.vue')
+const AddPictureBatchPage = () => import('@/pages/AddPictureBatchPage.vue')
 
 export const routes = [
   {
@@ -27,8 +28,16 @@ export const routes = [
     component: AddPicturePage,
     meta: {
       menuOrder: 3,
-      access: ACCESS_ENUM.NOT_LOGIN,
+      access: ACCESS_ENUM.USER,
       icon: () => h(FileImageOutlined),
+    },
+  },
+  {
+    path: '/add_picture/batch',
+    name: '批量创建图片',
+    component: AddPictureBatchPage,
+    meta: {
+      hideInMenu: true,
     },
   },
   {
