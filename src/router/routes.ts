@@ -1,4 +1,10 @@
 import { h } from 'vue'
+import {
+  HomeOutlined,
+  InsertRowAboveOutlined,
+  FileImageOutlined,
+  TeamOutlined,
+} from '@ant-design/icons-vue'
 import HomePage from '@/pages/HomePage.vue'
 import UserLoginPage from '@/pages/user/userLoginPage.vue'
 import UserRegisterPage from '@/pages/user/userRegisterPage.vue'
@@ -6,7 +12,7 @@ import UserManagePage from '@/pages/admin/userManagePage.vue'
 import PictureManagePage from '@/pages/admin/pictureManagePage.vue'
 import PictureDetailPage from '@/pages/PictureDetailPage.vue'
 import ACCESS_ENUM from '@/access/accessEnum'
-import { HomeOutlined, InsertRowAboveOutlined, FileImageOutlined } from '@ant-design/icons-vue'
+import SpaceManagePage from '@/pages/admin/spaceManagePage.vue'
 
 // 懒加载
 const AddPicturePage = () => import('@/pages/AddPicturePage.vue')
@@ -74,6 +80,16 @@ export const routes = [
       menuOrder: 4,
       access: ACCESS_ENUM.ADMIN,
       icon: () => h(FileImageOutlined),
+    },
+  },
+  {
+    path: '/admin/spaceManage',
+    name: '空间管理',
+    component: SpaceManagePage,
+    meta: {
+      menuOrder: 5,
+      access: ACCESS_ENUM.ADMIN,
+      icon: () => h(TeamOutlined),
     },
   },
   {
