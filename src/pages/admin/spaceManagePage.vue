@@ -78,7 +78,7 @@ import { message } from 'ant-design-vue'
 import { deleteSpaceUsingPost, listSpaceByPageUsingPost } from '@/service/api/spaceController'
 import { ref, reactive, onMounted, computed } from 'vue'
 import dayjs from 'dayjs'
-import { SPACE_LEVEL_ENUM, SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS } from '@/constants/space'
+import { SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS } from '@/constants/space'
 import { formatSize } from '@/utils'
 
 //表格列名

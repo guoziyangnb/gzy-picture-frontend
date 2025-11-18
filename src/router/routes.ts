@@ -17,6 +17,7 @@ import SpaceManagePage from '@/pages/admin/spaceManagePage.vue'
 // 懒加载
 const AddPicturePage = () => import('@/pages/AddPicturePage.vue')
 const AddPictureBatchPage = () => import('@/pages/AddPictureBatchPage.vue')
+const AddSpacePage = () => import('@/pages/AddSpacePage.vue')
 
 export const routes = [
   {
@@ -80,6 +81,14 @@ export const routes = [
       menuOrder: 4,
       access: ACCESS_ENUM.ADMIN,
       icon: () => h(FileImageOutlined),
+    },
+  },
+  {
+    path: '/add_space',
+    name: '创建空间',
+    component: AddSpacePage,
+    meta: {
+      hideInMenu: true,
     },
   },
   {
