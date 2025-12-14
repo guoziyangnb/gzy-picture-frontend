@@ -18,6 +18,7 @@ import SpaceManagePage from '@/pages/admin/spaceManagePage.vue'
 const AddPicturePage = () => import('@/pages/AddPicturePage.vue')
 const AddPictureBatchPage = () => import('@/pages/AddPictureBatchPage.vue')
 const AddSpacePage = () => import('@/pages/AddSpacePage.vue')
+const MySpacePage = () => import('@/pages/MySpacePage.vue')
 
 export const routes = [
   {
@@ -87,6 +88,14 @@ export const routes = [
     path: '/add_space',
     name: '创建空间',
     component: AddSpacePage,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: '/my_space',
+    name: '我的空间',
+    component: MySpacePage,
     meta: {
       hideInMenu: true,
     },

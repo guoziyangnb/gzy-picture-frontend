@@ -31,7 +31,7 @@
 
     <!-- 图片列表 -->
     <a-list
-      :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3, xl: 4, xxl: 5 }"
+      :grid="{ gutter: 8, xs: 1, sm: 1, md: 2, lg: 3, xl: 4, xxl: 5 }"
       :data-source="dataList"
       :loading="loading"
       :pagination="pagination"
