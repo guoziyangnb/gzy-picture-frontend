@@ -31,19 +31,15 @@
 
     <!-- 图片列表 -->
     <a-list
-      :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }"
+      :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3, xl: 4, xxl: 5 }"
       :data-source="dataList"
       :loading="loading"
       :pagination="pagination"
     >
       <template #renderItem="{ item: picture }">
-        <a-list-item style="padding: 0">
+        <a-list-item style="display: flex; justify-content: center">
           <!-- 单张图片 -->
-          <a-card
-            hoverable
-            style="width: 240px; border: 2px solid #ccc"
-            @click="doClickPicture(picture)"
-          >
+          <a-card hoverable style="width: 300px" @click="doClickPicture(picture)">
             <template #cover>
               <!-- object-fit: cover 表示图片展示的时候自适应展示 -->
               <img
