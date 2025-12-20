@@ -69,7 +69,7 @@ import {
   editPictureUsingPost,
   listPictureTagCategoryUsingGet,
   getPictureVoByIdUsingGet,
-} from '@/service/api/pictureController.ts'
+} from '@/service/api/pictureController'
 
 const picture = ref<API.PictureVO>()
 const pictureForm = reactive<API.PictureEditRequest>({})

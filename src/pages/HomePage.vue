@@ -30,55 +30,27 @@
     </div>
 
     <!-- 图片列表 -->
-    <a-list
-      :grid="{ gutter: 8, xs: 1, sm: 1, md: 2, lg: 3, xl: 4, xxl: 5 }"
-      :data-source="dataList"
-      :loading="loading"
-      :pagination="pagination"
-    >
-      <template #renderItem="{ item: picture }">
-        <a-list-item style="display: flex; justify-content: center">
-          <!-- 单张图片 -->
-          <a-card hoverable style="width: 300px" @click="doClickPicture(picture)">
-            <template #cover>
-              <!-- object-fit: cover 表示图片展示的时候自适应展示 -->
-              <img
-                style="height: 180px; object-fit: cover"
-                :alt="picture.name"
-                :src="picture.thumbnailUrl ?? picture.url"
-                loading="lazy"
-              />
-            </template>
-            <a-card-meta :title="picture.name">
-              <template #description>
-                <!-- <a-flex></a-flex> flex标签组件 -->
-                <a-flex>
-                  <!-- 分类 -->
-                  <a-tag color="green">
-                    {{ picture.category ?? '默认' }}
-                  </a-tag>
-                  <!-- 标签 -->
-                  <a-tag v-for="tag in picture.tags" :key="tag" color="blue">
-                    {{ tag }}
-                  </a-tag>
-                </a-flex>
-              </template>
-            </a-card-meta>
-          </a-card>
-        </a-list-item>
-      </template>
-    </a-list>
+    <PictureList :dataList="dataList" :loading="loading" />
+    <a-pagination
+      style="text-align: right"
+      v-model:current="searchParams.current"
+      v-model:pageSize="searchParams.pageSize"
+      :total="total"
+      :show-total="(total: number) => `共 ${total} 条`"
+      @change="onPageChange"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import {
   listPictureTagCategoryUsingGet,
   listPictureVoByPageUsingPost,
 } from '@/service/api/pictureController'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
+import PictureList from '@/components/PictureList.vue'
 
 const total = ref(0)
 const loading = ref(true)
@@ -86,26 +58,17 @@ const dataList = ref<API.PictureVO[]>([])
 // 搜索条件
 const searchParams = reactive<API.PictureQueryRequest>({
   current: 1,
-  pageSize: 12,
+  pageSize: 10,
   sortField: 'createTime',
   sortOrder: 'descend',
 })
 
 // 分页参数
-const pagination = computed(() => {
-  return {
-    current: searchParams.current ?? 1,
-    pageSize: searchParams.pageSize ?? 12,
-    total: total.value,
-    showTotal: (total: number) => `共 ${total} 条`, // 显示总条数
-    // onChange切换页号时，会修改搜索参数并获取数据
-    onChange: (page: number, pageSize: number) => {
-      searchParams.current = page
-      searchParams.pageSize = pageSize
-      fetchData()
-    },
-  }
-})
+const onPageChange = (page: number, pageSize: number) => {
+  searchParams.current = page
+  searchParams.pageSize = pageSize
+  fetchData()
+}
 
 // 获取数据
 const fetchData = async () => {
@@ -162,14 +125,6 @@ const getTagCategoryOptions = async () => {
   } else {
     message.error('加载分类标签失败，' + res.data.message)
   }
-}
-
-const router = useRouter()
-// 跳转至图片详情
-const doClickPicture = (picture) => {
-  router.push({
-    path: `/picture/${picture.id}`,
-  })
 }
 </script>
 

@@ -21,20 +21,12 @@
 <script lang="ts" setup>
 import { ref, h } from 'vue'
 import { PictureOutlined, UserOutlined } from '@ant-design/icons-vue'
-import type { MenuProps } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
-import { userLogoutUsingPost } from '@/service/api/userController'
-import { message } from 'ant-design-vue'
-import { computed } from 'vue'
-import { useLocaleStore } from '@/stores/useLocaleStore'
-import type { SupportedLocaleKey } from '@/stores/useLocaleStore'
-import checkAccess from '@/access/checkAccess'
 
 const router = useRouter() //路由对象
 const loginUserStore = useLoginUserStore() // 登录用户状态
 loginUserStore.fetchLoginUser() // 获取登录用户信息
-const localeStore = useLocaleStore() // 语言状态
 
 // 当前选中菜单
 const current = ref<string[]>([])

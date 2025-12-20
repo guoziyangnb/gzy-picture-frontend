@@ -13,6 +13,7 @@ import PictureManagePage from '@/pages/admin/pictureManagePage.vue'
 import PictureDetailPage from '@/pages/PictureDetailPage.vue'
 import ACCESS_ENUM from '@/access/accessEnum'
 import SpaceManagePage from '@/pages/admin/spaceManagePage.vue'
+import SpaceDetailPage from '@/pages/SpaceDetailPage.vue'
 
 // 懒加载
 const AddPicturePage = () => import('@/pages/AddPicturePage.vue')
@@ -115,6 +116,15 @@ export const routes = [
     name: '图片详情',
     component: PictureDetailPage,
     props: true, //这样可以直接通过props.id获取到url上的动态id的信息了
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: '/space/:id',
+    name: '空间详情',
+    component: SpaceDetailPage,
+    props: true,
     meta: {
       hideInMenu: true,
     },

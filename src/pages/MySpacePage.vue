@@ -16,6 +16,14 @@ const loginUserStore = useLoginUserStore()
 
 // 检查用户是否有个人空间
 const checkUserSpace = async () => {
+  /**
+   *   
+   * 先梳理业务流程，跳转到该页面时：
+      - 用户未登录，则直接跳转到登录页面
+      - 如果用户已登录，会获取该用户已创建的空间
+      - 如果有，则进入第一个空间
+      - 如果没有，则跳转到创建空间页面
+   */
   const loginUser = loginUserStore.loginUser
   // 用户未登录跳转到登录页
   if (!loginUser?.id) {
@@ -29,7 +37,7 @@ const checkUserSpace = async () => {
     pageSize: 1,
   })
   if (res.data.code === 0) {
-    if (res.data.data?.records?.length > 0) {
+    if ((res.data.data?.records?.length as number) > 0) {
       // 如果有进入到第一个空间
       const space = res.data.data.records[0]
       router.replace(`/space/${space.id}`)
