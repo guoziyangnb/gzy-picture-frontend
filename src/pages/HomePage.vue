@@ -37,6 +37,7 @@
       v-model:pageSize="searchParams.pageSize"
       :total="total"
       :show-total="(total: number) => `共 ${total} 条`"
+      show-quick-jumper
       @change="onPageChange"
     />
   </div>
