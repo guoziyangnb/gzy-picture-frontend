@@ -34,7 +34,7 @@
       v-model:current="searchParams.current"
       v-model:pageSize="searchParams.pageSize"
       :total="total"
-      :show-total="(total: number) => `共 ${total} 条`"
+      :show-total="() => `图片总数 ${total} 条/ ${space.maxCount}`"
       @change="onPageChange"
     />
   </div>
