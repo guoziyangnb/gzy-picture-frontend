@@ -43,7 +43,7 @@ const menuConfig = [
     label: '我的空间',
     title: '我的空间',
     // 匹配/my_space、/space/:id、/add_space这些路由
-    matchRoutes: ['/my_space', '/space', '/add_space'],
+    matchRoutes: ['/my_space', '/space', '/add_space', '/add_picture', '/picture'],
   },
 ]
 

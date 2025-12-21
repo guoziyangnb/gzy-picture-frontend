@@ -30,7 +30,7 @@
     </div>
 
     <!-- 图片列表 -->
-    <PictureList :dataList="dataList" :loading="loading" />
+    <PictureList :dataList="dataList" :loading="loading" :show-op="false" />
     <a-pagination
       style="text-align: right"
       v-model:current="searchParams.current"

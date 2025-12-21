@@ -145,13 +145,23 @@ const canReview = computed(() => {
   if (!loginUser.id) {
     return false
   }
-  // 管理员且审核通过可编辑
-  return loginUser.userRole === 'admin' && picture.value.reviewStatus === 1
+  if (!picture.value.spaceId) {
+    // 管理员且审核通过可编辑
+    return loginUser.userRole === 'admin' && picture.value.reviewStatus === 1
+  } else {
+    return false
+  }
 })
 
 // 编辑
 const doEdit = () => {
-  router.push('/add_picture?id=' + picture.value.id)
+  router.push({
+    path: '/add_picture',
+    query: {
+      id: picture.value.id,
+      spaceId: picture.value.spaceId,
+    },
+  })
 }
 // 删除
 const doDelete = async () => {
