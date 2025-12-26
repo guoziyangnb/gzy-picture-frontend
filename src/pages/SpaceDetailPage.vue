@@ -25,7 +25,8 @@
       </a-space>
     </a-flex>
 
-    <div style="margin-bottom: 16px"></div>
+    <!-- 搜索表单 -->
+    <PictureSearchForm :searchParams="searchParams" :onSearch="fetchData" />
 
     <!-- 图片列表 -->
     <PictureList :dataList="dataList" :loading="loading" :shpwOp="true" :onReload="fetchData" />
@@ -45,9 +46,9 @@ import { ref, onMounted, reactive } from 'vue'
 import { message } from 'ant-design-vue'
 import { getSpaceVoByIdUsingGet } from '@/service/api/spaceController'
 import { listPictureVoByPageUsingPost } from '@/service/api/pictureController'
-import router from '@/router'
 import { formatSize } from '@/utils'
 import PictureList from '@/components/PictureList.vue'
+import PictureSearchForm from '@/components/PictureSearchForm.vue'
 
 interface Props {
   id: string | number
