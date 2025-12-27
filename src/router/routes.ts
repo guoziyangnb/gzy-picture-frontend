@@ -20,6 +20,7 @@ const AddPicturePage = () => import('@/pages/AddPicturePage.vue')
 const AddPictureBatchPage = () => import('@/pages/AddPictureBatchPage.vue')
 const AddSpacePage = () => import('@/pages/AddSpacePage.vue')
 const MySpacePage = () => import('@/pages/MySpacePage.vue')
+const SearchPicturePage = () => import('@/pages/SearchPicturePage.vue')
 
 export const routes = [
   {
@@ -115,6 +116,15 @@ export const routes = [
     path: '/picture/:id',
     name: '图片详情',
     component: PictureDetailPage,
+    props: true, //这样可以直接通过props.id获取到url上的动态id的信息了
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: '/search_picture',
+    name: '图片搜索',
+    component: SearchPicturePage,
     props: true, //这样可以直接通过props.id获取到url上的动态id的信息了
     meta: {
       hideInMenu: true,

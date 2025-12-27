@@ -36,11 +36,15 @@
               </template>
             </a-card-meta>
             <template v-if="showOp" #actions>
-              <a-space @click="(e) => doEdit(picture, e)">
+              <a-space @click="(e: any) => doSearch(picture, e)">
+                <SearchOutlined />
+                搜索
+              </a-space>
+              <a-space @click="(e: any) => doEdit(picture, e)">
                 <EditOutlined />
                 编辑
               </a-space>
-              <a-space @click="(e) => doDelete(picture, e)">
+              <a-space @click="(e: any) => doDelete(picture, e)">
                 <DeleteOutlined />
                 删除
               </a-space>
@@ -54,7 +58,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import { EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import { deletePictureUsingPost } from '@/service/api/pictureController'
 import { message } from 'ant-design-vue'
 
@@ -73,14 +77,21 @@ const props = withDefaults(defineProps<Props>(), {
 
 const router = useRouter()
 // 跳转至图片详情
-const doClickPicture = (picture) => {
+const doClickPicture = (picture: API.PictureVO) => {
   router.push({
     path: `/picture/${picture.id}`,
   })
 }
 
+// 搜索
+// 点击事件的 e 是 PointerEvent 类型
+const doSearch = (picture: API.PictureVO, e: PointerEvent) => {
+  e.stopPropagation()
+  window.open(`/search_picture?pictureId=${picture.id}`)
+}
+
 // 编辑
-const doEdit = (picture, e) => {
+const doEdit = (picture: API.PictureVO, e: PointerEvent) => {
   e.stopPropagation()
   router.push({
     path: '/add_picture',
@@ -92,7 +103,7 @@ const doEdit = (picture, e) => {
 }
 
 // 删除
-const doDelete = async (picture, e) => {
+const doDelete = async (picture: API.PictureVO, e: PointerEvent) => {
   e.stopPropagation()
   const id = picture.id
   if (!id) {
