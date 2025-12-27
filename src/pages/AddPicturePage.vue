@@ -159,6 +159,8 @@ const getOldPicture = async () => {
   const id = route.query?.id
   if (id) {
     const res = await getPictureVoByIdUsingGet({
+      // id: parseInt(id as string, 10), // ? 遇到这种需要先转换成string之后再转换成number类型的这么改即可,
+      // 但是数字太大仍然不行，这么转换还会降低运行，稳妥的方式是交给后端解决速度
       id: id,
     })
     if (res.data.code === 0 && res.data.data) {

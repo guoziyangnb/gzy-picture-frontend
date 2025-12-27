@@ -38,12 +38,10 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useLoginUserStore } from '@/stores/useLoginUserStore'
 import { userRegisterUsingPost } from '@/service/api/userController'
 import { message } from 'ant-design-vue'
 
 const router = useRouter()
-const loginUserStore = useLoginUserStore()
 
 const formState = reactive<API.UserRegisterRequest>({
   userAccount: '',

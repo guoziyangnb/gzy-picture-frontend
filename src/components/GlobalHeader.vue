@@ -53,8 +53,9 @@
               {{ localeStore.languageName }}
               <template #overlay>
                 <a-menu @click="doLanguageChange">
-                  <a-menu-item v-for="locale in Object.keys(LOCALE_ENUM)" :key="locale">
-                    {{ LOCALE_ENUM[locale] }}
+                  <!-- 通过Object.entries来避免TS检查key的类型问题 以后避免用Object.keys -->
+                  <a-menu-item v-for="[locale, name] in Object.entries(LOCALE_ENUM)" :key="locale">
+                    {{ name }}
                   </a-menu-item>
                 </a-menu>
               </template>

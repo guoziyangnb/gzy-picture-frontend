@@ -92,7 +92,12 @@
         </template>
         <!-- 审核信息 -->
         <template v-if="column.dataIndex === 'reviewMessage'">
-          <div>审核状态：{{ PIC_REVIEW_STATUS_MAP[record.reviewStatus] }}</div>
+          <!-- 像这种迫不得已用枚举的报错提示 "元素隐式具有 'any' 类型，只需要把里面的键后面跟上 as keyof typeof <枚举对象> 即可 -->
+          <div>
+            审核状态：{{
+              PIC_REVIEW_STATUS_MAP[record.reviewStatus as keyof typeof PIC_REVIEW_STATUS_MAP]
+            }}
+          </div>
           <div>审核信息：{{ record.reviewMessage }}</div>
           <div>审核人：{{ record.reviewerId }}</div>
           <div v-if="record.reviewTime">

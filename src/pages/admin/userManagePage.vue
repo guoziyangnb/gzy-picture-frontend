@@ -44,7 +44,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { listUserVoByPageUsingPost, deleteUserUsingPost } from '@/service/api/userController'
 import { ref, reactive, onMounted, computed } from 'vue'

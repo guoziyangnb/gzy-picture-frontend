@@ -18,7 +18,7 @@
         >
           <a-progress
             type="circle"
-            :percent="((space.totalSize * 100) / space.maxSize).toFixed(2)"
+            :percent="((space.totalSize ?? 0 * 100) / (space.maxSize ?? 1)).toFixed(2)"
             :size="42"
           />
         </a-tooltip>
@@ -61,7 +61,7 @@ const space = ref<API.SpaceVO>({})
 const fetchSpaceDetail = async () => {
   try {
     const res = await getSpaceVoByIdUsingGet({
-      id: props?.id,
+      id: props?.id as number,
     })
     if (res.data.code === 0 && res.data.data) {
       space.value = res.data.data
@@ -102,7 +102,7 @@ const fetchData = async () => {
   loading.value = true
   // 转换搜索参数
   const params = {
-    spaceId: props.id,
+    spaceId: props.id as number,
     ...searchParams.value,
   }
   const res = await listPictureVoByPageUsingPost(params)
