@@ -18,7 +18,7 @@
         >
           <a-progress
             type="circle"
-            :percent="((space.totalSize * 100) / space.maxSize).toFixed(1)"
+            :percent="((space.totalSize * 100) / space.maxSize).toFixed(2)"
             :size="42"
           />
         </a-tooltip>
@@ -26,7 +26,7 @@
     </a-flex>
 
     <!-- 搜索表单 -->
-    <PictureSearchForm :searchParams="searchParams" :onSearch="fetchData" />
+    <PictureSearchForm :onSearch="onSearch" />
 
     <!-- 图片列表 -->
     <PictureList :dataList="dataList" :loading="loading" :shpwOp="true" :onReload="fetchData" />
@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { getSpaceVoByIdUsingGet } from '@/service/api/spaceController'
 import { listPictureVoByPageUsingPost } from '@/service/api/pictureController'
@@ -83,7 +83,7 @@ const total = ref(0)
 const loading = ref(true)
 const dataList = ref<API.PictureVO[]>([])
 // 搜索条件
-const searchParams = reactive<API.PictureQueryRequest>({
+const searchParams = ref<API.PictureQueryRequest>({
   current: 1,
   pageSize: 10,
   sortField: 'createTime',
@@ -92,8 +92,8 @@ const searchParams = reactive<API.PictureQueryRequest>({
 
 // 分页参数
 const onPageChange = (page: number, pageSize: number) => {
-  searchParams.current = page
-  searchParams.pageSize = pageSize
+  searchParams.value.current = page
+  searchParams.value.pageSize = pageSize
   fetchData()
 }
 
@@ -103,7 +103,7 @@ const fetchData = async () => {
   // 转换搜索参数
   const params = {
     spaceId: props.id,
-    ...searchParams,
+    ...searchParams.value,
   }
   const res = await listPictureVoByPageUsingPost(params)
   if (res.data.data) {
@@ -113,6 +113,16 @@ const fetchData = async () => {
     message.error('获取数据失败，' + res.data.message)
   }
   loading.value = false
+}
+
+// 搜索  -> 重置分页参数，params是子传父传过来的
+const onSearch = (newSearcParams: API.PictureQueryRequest) => {
+  searchParams.value = {
+    ...searchParams.value,
+    ...newSearcParams,
+    current: 1,
+  }
+  fetchData()
 }
 </script>
 

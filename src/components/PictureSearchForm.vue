@@ -1,7 +1,7 @@
 <template>
   <div class="picture-search-form">
     <!-- 搜索框 -->
-    <a-form layout="inline" :model="searchParams" @finish="doSearch">
+    <a-form name="searchParams" layout="inline" :model="searchParams" @finish="doSearch">
       <a-form-item label="关键词" name="searchText">
         <a-input
           v-model:value="searchParams.searchText"
@@ -57,7 +57,7 @@
       <a-form-item>
         <a-space>
           <a-button type="primary" html-type="submit" @click="doSearch">搜索</a-button>
-          <a-button danger html-type="reset" @click="doClear">重置</a-button>
+          <a-button type="primary" danger html-type="reset" @click="doClear">重置</a-button>
         </a-space>
       </a-form-item>
     </a-form>
@@ -86,12 +86,17 @@ type RangeValue = [Dayjs, Dayjs]
  * @param dateStrings
  */
 const onRangeChange = (dates: RangeValue, dateStrings: string[]) => {
-  if (dates.length < 2) {
+  if (dates.length >= 2) {
+    /**
+     * ? 这种后端如果是Date类型的话，前端传ISO字符串就行不然报错
+     * Cannot parse date "Fri Dec 19 2025 17:19:55 GMT+0800 (中国标准时间)": not compatible with any of standard forms
+     *  ("yyyy-MM-dd'T'HH:mm:ss.SSSX", "yyyy-MM-dd'T'HH:mm:ss.SSS", "EEE, dd MMM yyyy HH:mm:ss zzz", "yyyy-MM-dd"))
+     */
+    searchParams.startEditTime = dates[0].toDate().toISOString()
+    searchParams.endEditTime = dates[1].toDate().toISOString()
+  } else {
     searchParams.startEditTime = undefined
     searchParams.endEditTime = undefined
-  } else {
-    searchParams.startEditTime = String(dates[0].toDate())
-    searchParams.endEditTime = String(dates[1].toDate())
   }
 }
 
@@ -120,7 +125,6 @@ const rangePresets = ref([
 // 获取数据
 const doSearch = () => {
   // 重置页码
-  searchParams.current = 1
   props?.onSearch?.(searchParams)
 }
 
