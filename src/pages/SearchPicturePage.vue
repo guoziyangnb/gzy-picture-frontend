@@ -29,22 +29,22 @@
       <template #renderItem="{ item }">
         <a-list-item style="padding: 0">
           <!-- 百度以图搜图结果 -->
-          <!-- <a :href="item.fromUrl" target="_blank">
+          <a :href="item.fromUrl" target="_blank">
             <a-card>
               <template #cover>
                 <img style="height: 180px; object-fit: cover" :src="item.thumbUrl" />
               </template>
             </a-card>
-          </a> -->
+          </a>
 
           <!-- 360以图搜图结果 -->
-          <a :href="item.imgUrl" target="_blank">
+          <!-- <a :href="item.imgUrl" target="_blank">
             <a-card>
               <template #cover>
                 <img style="height: 180px; object-fit: cover" :src="item.imgUrl" />
               </template>
             </a-card>
-          </a>
+          </a> -->
         </a-list-item>
       </template>
     </a-list>
@@ -56,7 +56,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import {
   getPictureVoByIdUsingGet,
-  searchPictureByPictureIsSoUsingPost,
+  searchPictureByPictureUsingPost,
 } from '@/service/api/pictureController'
 import { message } from 'ant-design-vue'
 
@@ -95,7 +95,7 @@ const loading = ref<boolean>(false)
 // 获取搜图结果
 const fetchData = async () => {
   loading.value = true
-  const res = await searchPictureByPictureIsSoUsingPost({
+  const res = await searchPictureByPictureUsingPost({
     pictureId: pictureId.value,
   })
   if (res.data.code === 0 && res.data.data) {
