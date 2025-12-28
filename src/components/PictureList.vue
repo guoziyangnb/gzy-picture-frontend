@@ -36,22 +36,22 @@
               </template>
             </a-card-meta>
             <template v-if="showOp" #actions>
-              <a-space @click="(e: any) => doShare(picture, e)">
-                <ShareAltOutlined />
-                分享
-              </a-space>
-              <a-space @click="(e: any) => doSearch(picture, e)">
-                <SearchOutlined />
-                搜索
-              </a-space>
-              <a-space @click="(e: any) => doEdit(picture, e)">
-                <EditOutlined />
-                编辑
-              </a-space>
-              <a-space @click="(e: any) => doDelete(picture, e)">
-                <DeleteOutlined />
-                删除
-              </a-space>
+              <a-tooltip color="blue">
+                <template #title>分享</template>
+                <ShareAltOutlined @click="(e: any) => doShare(picture, e)" />
+              </a-tooltip>
+              <a-tooltip color="blue">
+                <template #title>搜索</template>
+                <SearchOutlined @click="(e: any) => doSearch(picture, e)" />
+              </a-tooltip>
+              <a-tooltip color="blue">
+                <template #title>编辑</template>
+                <EditOutlined @click="(e: any) => doEdit(picture, e)" />
+              </a-tooltip>
+              <a-tooltip color="blue">
+                <template #title>删除</template>
+                <DeleteOutlined @click="(e: any) => doDelete(picture, e)" />
+              </a-tooltip>
             </template>
           </a-card>
         </a-list-item>
