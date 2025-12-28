@@ -36,7 +36,15 @@
               </template>
             </a-card-meta>
             <template v-if="showOp" #actions>
-              <a-tooltip color="blue">
+              <a-tooltip
+                v-for="action in actions"
+                :key="action.key"
+                :color="action.color || 'blue'"
+              >
+                <template #title>{{ action.label }}</template>
+                <component :is="action.icon" @click="(e: any) => action.handler(picture, e)" />
+              </a-tooltip>
+              <!-- <a-tooltip color="blue">
                 <template #title>分享</template>
                 <ShareAltOutlined @click="(e: any) => doShare(picture, e)" />
               </a-tooltip>
@@ -51,7 +59,7 @@
               <a-tooltip color="blue">
                 <template #title>删除</template>
                 <DeleteOutlined @click="(e: any) => doDelete(picture, e)" />
-              </a-tooltip>
+              </a-tooltip> -->
             </template>
           </a-card>
         </a-list-item>
@@ -86,6 +94,38 @@ const props = withDefaults(defineProps<Props>(), {
   loading: false,
   showOp: true,
 })
+
+// 定义操作按钮配置
+const actions = [
+  {
+    key: 'share',
+    label: '分享',
+    icon: ShareAltOutlined,
+    color: 'blue',
+    handler: (picture: API.PictureVO, e: PointerEvent) => doShare(picture, e),
+  },
+  {
+    key: 'search',
+    label: '搜索',
+    icon: SearchOutlined,
+    color: 'blue',
+    handler: (picture: API.PictureVO, e: PointerEvent) => doSearch(picture, e),
+  },
+  {
+    key: 'edit',
+    label: '编辑',
+    icon: EditOutlined,
+    color: 'blue',
+    handler: (picture: API.PictureVO, e: PointerEvent) => doEdit(picture, e),
+  },
+  {
+    key: 'delete',
+    label: '删除',
+    icon: DeleteOutlined,
+    color: 'blue',
+    handler: (picture: API.PictureVO, e: PointerEvent) => doDelete(picture, e),
+  },
+]
 
 const router = useRouter()
 // 跳转至图片详情
