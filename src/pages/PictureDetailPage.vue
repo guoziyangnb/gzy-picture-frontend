@@ -55,6 +55,19 @@
             <a-descriptions-item label="大小">
               {{ formatSize(picture.picSize) }}
             </a-descriptions-item>
+            <a-descriptions-item label="主色调">
+              <a-space>
+                {{ picture.picColor ? toHexColor(picture.picColor) : '-' }}
+                <div
+                  v-if="picture.picColor"
+                  :style="{
+                    backgroundColor: toHexColor(picture.picColor),
+                    width: '16px',
+                    height: '16px',
+                  }"
+                ></div>
+              </a-space>
+            </a-descriptions-item>
           </a-descriptions>
           <!-- 图片操作 -->
           <a-space wrap>
@@ -101,6 +114,7 @@ import { useLoginUserStore } from '@/stores/useLoginUserStore'
 import router from '@/router'
 import { PIC_REVIEW_STATUS_ENUM } from '@/constants/picture'
 import PageHeader from '@/components/PageHeader.vue'
+import { toHexColor } from '@/utils/colorTransform'
 
 interface Props {
   id: string | number
