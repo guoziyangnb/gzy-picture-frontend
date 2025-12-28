@@ -1,4 +1,6 @@
 <template>
+  <!-- 返回键 -->
+  <PageHeader v-if="picture?.id" />
   <div id="addPicturePage">
     <h2 style="margin-bottom: 16px">
       {{ route.query?.id ? '修改图片' : '创建图片' }}
@@ -72,6 +74,7 @@ import {
   listPictureTagCategoryUsingGet,
   getPictureVoByIdUsingGet,
 } from '@/service/api/pictureController'
+import PageHeader from '@/components/PageHeader.vue'
 
 // 获取页面信息，比如页面路由、页面的元信息
 const route = useRoute()

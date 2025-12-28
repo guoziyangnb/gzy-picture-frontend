@@ -6,6 +6,9 @@
 */ -->
 <template>
   <div id="PictureDetailPage">
+    <!-- 返回键 -->
+    <PageHeader />
+
     <a-row :gutter="[16, 16]">
       <!-- 图片展示区 -->
       <a-col :sm="24" :md="16" :xl="18" class="picture-preview">
@@ -97,6 +100,7 @@ import { downloadImage, formatSize } from '@/utils'
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
 import router from '@/router'
 import { PIC_REVIEW_STATUS_ENUM } from '@/constants/picture'
+import PageHeader from '@/components/PageHeader.vue'
 
 interface Props {
   id: string | number
