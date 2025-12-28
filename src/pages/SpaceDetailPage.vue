@@ -34,10 +34,10 @@
     </a-flex>
 
     <!-- 搜索表单 -->
-    <PictureSearchForm :onSearch="onSearch" />
+    <PictureSearchForm :onSearch="onSearch" :isMore="true" :doMore="doMoreAction" />
 
     <!-- 按颜色搜索 -->
-    <a-form-item label="按颜色搜索" style="margin-top: 16px">
+    <a-form-item v-show="canColorSearch" label="按颜色搜索" style="margin-top: 16px">
       <ColorPicker format="hex" @pureColorChange="onColorChange" />
     </a-form-item>
 
@@ -149,6 +149,12 @@ const onSearch = (newSearcParams: API.PictureQueryRequest) => {
     current: 1,
   }
   fetchData()
+}
+
+// ------------颜色搜索------------
+const canColorSearch = ref<boolean>(false)
+const doMoreAction = () => {
+  canColorSearch.value = !canColorSearch.value
 }
 
 // 颜色选择器

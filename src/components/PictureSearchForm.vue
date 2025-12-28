@@ -58,6 +58,7 @@
         <a-space>
           <a-button type="primary" html-type="submit" @click="doSearch">搜索</a-button>
           <a-button type="primary" danger html-type="reset" @click="doClear">重置</a-button>
+          <a-button v-if="isMore" html-type="reset" @click="doMore">更多<DownOutlined /></a-button>
         </a-space>
       </a-form-item>
     </a-form>
@@ -65,16 +66,21 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, withDefaults } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 import { listPictureTagCategoryUsingGet } from '@/service/api/pictureController'
 import { message } from 'ant-design-vue'
+import { DownOutlined } from '@ant-design/icons-vue'
 
 interface Props {
   onSearch?: (searchParams: API.PictureQueryRequest) => void
+  isMore?: boolean // 是否展示更多按钮
+  doMore?: () => void // 父组件传递父组件的按钮事件
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  isMore: false,
+})
 
 //---------日期----------------
 const dateRange = ref<[]>([])
