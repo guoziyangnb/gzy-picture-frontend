@@ -8,7 +8,7 @@
       :loading="props.loading"
     >
       <template #renderItem="{ item: picture }">
-        <a-list-item style="display: flex; justify-content: center">
+        <a-list-item style="display: flex; justify-content: center; padding: 0">
           <!-- 单张图片 -->
           <a-card hoverable style="width: 300px" @click="doClickPicture(picture)">
             <template #cover>
@@ -108,21 +108,21 @@ const actions = [
     key: 'search',
     label: '搜索',
     icon: SearchOutlined,
-    color: 'blue',
+    color: 'pink',
     handler: (picture: API.PictureVO, e: PointerEvent) => doSearch(picture, e),
   },
   {
     key: 'edit',
     label: '编辑',
     icon: EditOutlined,
-    color: 'blue',
+    color: 'gold',
     handler: (picture: API.PictureVO, e: PointerEvent) => doEdit(picture, e),
   },
   {
     key: 'delete',
     label: '删除',
     icon: DeleteOutlined,
-    color: 'blue',
+    color: 'red',
     handler: (picture: API.PictureVO, e: PointerEvent) => doDelete(picture, e),
   },
 ]
