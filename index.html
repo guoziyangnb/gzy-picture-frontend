@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>阳神云图库</title>
     <meta name="description" content="阳神云图库，海量素材免费获取" />
+    <meta name="referrer" content="no-referrer" />
   </head>
   <body>
+    <!-- no-referrer目标服务器无法追踪请求来源，新页面无法获取上一页 URL；
+    部分服务器会配置 Referrer 校验（仅允许指定域名的 Referrer 请求资源），
+    如果你的页面无法满足该校验条件，配置 no-referrer 可以跳过校验，避免资源加载失败（例如部分第三方图片、插件无法加载的问题） -->
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

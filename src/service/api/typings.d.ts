@@ -17,6 +17,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListSoImageSearchResult_ = {
+    code?: number
+    data?: SoImageSearchResult[]
+    message?: string
+  }
+
   type BaseResponseListSpaceLevel_ = {
     code?: number
     data?: SpaceLevel[]
@@ -319,6 +325,14 @@ declare namespace API {
 
   type SearchPictureByPictureRequest = {
     pictureId?: number
+  }
+
+  type SoImageSearchResult = {
+    http?: string
+    https?: string
+    imgUrl?: string
+    imgkey?: string
+    title?: string
   }
 
   type Space = {

@@ -28,10 +28,20 @@
     >
       <template #renderItem="{ item }">
         <a-list-item style="padding: 0">
-          <a :href="item.fromUrl" target="_blank">
+          <!-- 百度以图搜图结果 -->
+          <!-- <a :href="item.fromUrl" target="_blank">
             <a-card>
               <template #cover>
                 <img style="height: 180px; object-fit: cover" :src="item.thumbUrl" />
+              </template>
+            </a-card>
+          </a> -->
+
+          <!-- 360以图搜图结果 -->
+          <a :href="item.imgUrl" target="_blank">
+            <a-card>
+              <template #cover>
+                <img style="height: 180px; object-fit: cover" :src="item.imgUrl" />
               </template>
             </a-card>
           </a>
@@ -46,7 +56,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import {
   getPictureVoByIdUsingGet,
-  searchPictureByPictureUsingPost,
+  searchPictureByPictureIsSoUsingPost,
 } from '@/service/api/pictureController'
 import { message } from 'ant-design-vue'
 
@@ -79,12 +89,13 @@ onMounted(() => {
 })
 
 // -------------获取搜图结果-------------------
-const dataList = ref<API.ImageSearchResult[]>([])
+// const dataList = ref<API.ImageSearchResult[]>([])  //百度以图搜图结果
+const dataList = ref<API.SoImageSearchResult[]>([]) //350以图搜图结果
 const loading = ref<boolean>(false)
 // 获取搜图结果
 const fetchData = async () => {
   loading.value = true
-  const res = await searchPictureByPictureUsingPost({
+  const res = await searchPictureByPictureIsSoUsingPost({
     pictureId: pictureId.value,
   })
   if (res.data.code === 0 && res.data.data) {
