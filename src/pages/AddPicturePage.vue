@@ -18,6 +18,18 @@
         <UrlPictureUpload :picture="picture" :spaceId="spaceId" :onSuccess="onSuccess" />
       </a-tab-pane>
     </a-tabs>
+
+    <div v-if="picture" class="edit-bar">
+      <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
+      <ImageCropper
+        ref="imageCropperRef"
+        :imageUrl="picture?.url"
+        :picture="picture"
+        :spaceId="spaceId"
+        :onSuccess="onCropSuccess"
+      />
+    </div>
+
     <!-- 这里必须要指定name，跟model一样，包括里面的<a-form-item></a-form-item>,否则上传的值会有点问题 -->
     <a-form
       name="pictureForm"
@@ -64,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed, h } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import PictureUpload from '@/components/PictureUpload.vue'
 import UrlPictureUpload from '@/components/UrlPictureUpload.vue'
@@ -75,6 +87,8 @@ import {
   getPictureVoByIdUsingGet,
 } from '@/service/api/pictureController'
 import PageHeader from '@/components/PageHeader.vue'
+import { EditOutlined } from '@ant-design/icons-vue'
+import ImageCropper from '@/components/ImageCropper.vue'
 
 // 获取页面信息，比如页面路由、页面的元信息
 const route = useRoute()
@@ -180,6 +194,22 @@ const getOldPicture = async () => {
 onMounted(() => {
   getOldPicture()
 })
+
+// --------------图片编辑---------------------
+// 图片编辑弹窗引用
+const imageCropperRef = ref()
+
+// 编辑图片
+const doEditPicture = () => {
+  if (imageCropperRef.value) {
+    imageCropperRef.value.openModal()
+  }
+}
+
+// 编辑成功事件
+const onCropSuccess = (newPicture: API.PictureVO) => {
+  picture.value = newPicture
+}
 </script>
 
 <style lang="scss" scoped>
@@ -189,6 +219,10 @@ onMounted(() => {
   margin: 0 auto;
   .foot-btn {
     margin-bottom: 28px;
+  }
+  .edit-bar {
+    text-align: center;
+    margin: 8px 0;
   }
 }
 </style>
