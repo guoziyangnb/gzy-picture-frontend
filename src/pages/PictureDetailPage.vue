@@ -77,7 +77,12 @@
                 <DownloadOutlined />
               </template>
             </a-button>
-
+            <a-button type="primary" ghost @click="doShare">
+              分享
+              <template #icon>
+                <ShareAltOutlined />
+              </template>
+            </a-button>
             <a-button
               v-if="canReview"
               :icon="h(EditOutlined)"
@@ -97,6 +102,7 @@
         </a-card>
       </a-col>
     </a-row>
+    <ShareModal ref="shareModalRef" :link="shareLink" />
   </div>
 </template>
 
@@ -108,13 +114,19 @@ import {
   getPictureVoByIdUsingGet,
   doPictureReviewUsingPost,
 } from '@/service/api/pictureController.ts'
-import { EditOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons-vue'
+import {
+  EditOutlined,
+  DeleteOutlined,
+  DownloadOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons-vue'
 import { downloadImage, formatSize } from '@/utils'
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
 import router from '@/router'
 import { PIC_REVIEW_STATUS_ENUM } from '@/constants/picture'
 import PageHeader from '@/components/PageHeader.vue'
 import { toHexColor } from '@/utils/colorTransform'
+import ShareModal from '@/components/ShareModal.vue'
 
 interface Props {
   id: string | number
@@ -215,6 +227,21 @@ const handleReview = async (record: API.Picture, reviewStatus: number) => {
     fetchPictureDetail()
   } else {
     message.error('撤销操作失败，' + res.data.message)
+  }
+}
+
+// -------------分享操作-----------------------
+// 分享弹窗引用
+const shareModalRef = ref()
+// 分享链接
+const shareLink = ref<string>()
+
+// 分享
+const doShare = () => {
+  shareLink.value = `${window.location.protocol}//${window.location.host}/picture/${picture.value.id}`
+  // 打开分享弹窗
+  if (shareModalRef.value) {
+    shareModalRef.value.openModal()
   }
 }
 </script>
