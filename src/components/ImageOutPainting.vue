@@ -86,7 +86,9 @@ const createTask = async () => {
 }
 
 // 轮询定时器
-let pollingTimer: NodeJS.Timeout | null = null
+// ? 浏览器环境用 ReturnType<typeof setInterval>
+// ? node环境用 NodeJS.Timeout
+let pollingTimer: ReturnType<typeof setInterval> | null = null
 
 // 清理轮询定时器
 const clearPolling = () => {
