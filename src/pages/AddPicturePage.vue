@@ -21,13 +21,6 @@
 
     <div v-if="picture" class="edit-bar">
       <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
-      <ImageCropper
-        ref="imageCropperRef"
-        :imageUrl="picture?.url"
-        :picture="picture"
-        :spaceId="spaceId"
-        :onSuccess="onCropSuccess"
-      />
     </div>
 
     <!-- 这里必须要指定name，跟model一样，包括里面的<a-form-item></a-form-item>,否则上传的值会有点问题 -->
@@ -72,6 +65,13 @@
         >
       </a-form-item>
     </a-form>
+    <ImageCropper
+      ref="imageCropperRef"
+      :imageUrl="picture?.url"
+      :picture="picture"
+      :spaceId="spaceId"
+      :onSuccess="onCropSuccess"
+    />
   </div>
 </template>
 
