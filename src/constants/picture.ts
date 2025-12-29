@@ -21,3 +21,8 @@ export const PIC_REVIEW_STATUS_OPTIONS = Object.entries(PIC_REVIEW_STATUS_MAP).m
     }
   },
 )
+
+export const ERROR_PICTURE =
+  // 'https://img2.baidu.com/it/u=3145328477,3176755321&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500'
+
+  'https://gzypicture-1339229861.cos.ap-nanjing.myqcloud.com/gzyPicture/public/1878374171889680385/2025-12-29_uv86a0yuy862ejxc.webp'

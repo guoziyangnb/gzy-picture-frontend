@@ -19,6 +19,15 @@
       <a-col span="12">
         <h4>扩图结果</h4>
         <a-image
+          v-if="!!!taskId && !resultImageUrl && resultImageUrl !== ''"
+          :src="ERROR_PICTURE"
+          alt="扩图结果"
+          style="max-width: 100%; border-radius: 8px"
+        ></a-image>
+        <div v-if="!!taskId" class="lottie-loader">
+          <Vue3Lottie :animationData="AstronautJSON" :height="400" :width="400" />
+        </div>
+        <a-image
           v-if="resultImageUrl"
           :src="resultImageUrl"
           :alt="picture?.name"
@@ -45,6 +54,9 @@ import {
   getPictureOutPaintingTaskUsingGet,
 } from '@/service/api/pictureController'
 import { message } from 'ant-design-vue'
+import { Vue3Lottie } from 'vue3-lottie'
+import AstronautJSON from '@/assets/lottie/loading.json'
+import { ERROR_PICTURE } from '@/constants/picture'
 
 interface Props {
   picture?: API.PictureVO
