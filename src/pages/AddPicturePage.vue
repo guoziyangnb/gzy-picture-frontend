@@ -20,7 +20,12 @@
     </a-tabs>
 
     <div v-if="picture" class="edit-bar">
-      <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
+      <a-space size="middle">
+        <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
+        <a-button type="primary" ghost :icon="h(FullscreenOutlined)" @click="doImagePainting">
+          AI 扩图
+        </a-button>
+      </a-space>
     </div>
 
     <!-- 这里必须要指定name，跟model一样，包括里面的<a-form-item></a-form-item>,否则上传的值会有点问题 -->
@@ -72,6 +77,12 @@
       :spaceId="spaceId"
       :onSuccess="onCropSuccess"
     />
+    <ImageOutPainting
+      ref="imageOutPaintingRef"
+      :picture="picture"
+      :spaceId="spaceId"
+      :onSuccess="onImageOutPaintingSuccess"
+    />
   </div>
 </template>
 
@@ -87,8 +98,9 @@ import {
   getPictureVoByIdUsingGet,
 } from '@/service/api/pictureController'
 import PageHeader from '@/components/PageHeader.vue'
-import { EditOutlined } from '@ant-design/icons-vue'
+import { EditOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
 import ImageCropper from '@/components/ImageCropper.vue'
+import ImageOutPainting from '@/components/ImageOutPainting.vue'
 
 // 获取页面信息，比如页面路由、页面的元信息
 const route = useRoute()
@@ -208,6 +220,22 @@ const doEditPicture = () => {
 
 // 编辑成功事件
 const onCropSuccess = (newPicture: API.PictureVO) => {
+  picture.value = newPicture
+}
+
+// --------------图片扩图---------------------
+// AI 扩图弹窗引用
+const imageOutPaintingRef = ref()
+
+// AI 扩图
+const doImagePainting = () => {
+  if (imageOutPaintingRef.value) {
+    imageOutPaintingRef.value.openModal()
+  }
+}
+
+// 编辑成功事件
+const onImageOutPaintingSuccess = (newPicture: API.PictureVO) => {
   picture.value = newPicture
 }
 </script>
