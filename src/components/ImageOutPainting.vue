@@ -7,7 +7,7 @@
     :footer="false"
     @cancel="closeModal"
   >
-    <a-row gutter="16">
+    <a-row gutter="16" justify="center">
       <a-col span="12">
         <h4>原始图片</h4>
         <a-image
@@ -184,7 +184,7 @@ defineExpose({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .image-out-painting {
   text-align: center;
 }

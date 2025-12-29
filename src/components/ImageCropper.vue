@@ -134,13 +134,14 @@ defineExpose({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .image-cropper {
+  text-align: center;
   .vue-cropper {
     height: 400px;
   }
-  .image-cropper-actions {
-    text-align: center;
-  }
+  // .image-cropper-actions {
+  //   text-align: center;
+  // }
 }
 </style>
