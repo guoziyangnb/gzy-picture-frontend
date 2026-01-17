@@ -16,7 +16,7 @@ import { getSpaceCategoryAnalyzeUsingPost } from '@/service/api/spaceAnalyzeCont
 interface Props {
   queryAll?: boolean
   queryPublic?: boolean
-  spaceId?: number
+  spaceId?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -60,12 +60,12 @@ const options = computed(() => {
 
   return {
     tooltip: { trigger: 'axis' },
-    legend: { data: ['图片数量', '图片总大小'], top: 'bottom' },
+    legend: { data: ['图片数量 (张)', '图片总大小 (MB)'], top: 'bottom' },
     xAxis: { type: 'category', data: categories },
     yAxis: [
       {
         type: 'value',
-        name: '图片数量',
+        name: '图片数量 (张)',
         axisLine: { show: true, lineStyle: { color: '#5470C6' } }, // 左轴颜色
       },
       {
@@ -82,8 +82,8 @@ const options = computed(() => {
       },
     ],
     series: [
-      { name: '图片数量', type: 'bar', data: countData, yAxisIndex: 0 },
-      { name: '图片总大小', type: 'bar', data: sizeData, yAxisIndex: 1 },
+      { name: '图片数量 (张)', type: 'bar', data: countData, yAxisIndex: 0 },
+      { name: '图片总大小 (MB)', type: 'bar', data: sizeData, yAxisIndex: 1 },
     ],
   }
 })

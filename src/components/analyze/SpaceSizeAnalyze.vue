@@ -16,7 +16,7 @@ import { getSpaceSizeAnalyzeUsingPost } from '@/service/api/spaceAnalyzeControll
 interface Props {
   queryAll?: boolean
   queryPublic?: boolean
-  spaceId?: number
+  spaceId?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -54,36 +54,26 @@ watchEffect(() => {
 })
 
 const options = computed(() => {
-  const categories = dataList.value.map((item) => item.category)
-  const countData = dataList.value.map((item) => item.count)
-  const sizeData = dataList.value.map((item) => (item.totalSize / (1024 * 1024)).toFixed(2)) // 转为 MB
+  const pieData = dataList.value.map((item) => ({
+    name: item.sizeRange,
+    value: item.count,
+  }))
 
   return {
-    tooltip: { trigger: 'axis' },
-    legend: { data: ['图片数量', '图片总大小'], top: 'bottom' },
-    xAxis: { type: 'category', data: categories },
-    yAxis: [
-      {
-        type: 'value',
-        name: '图片数量',
-        axisLine: { show: true, lineStyle: { color: '#5470C6' } }, // 左轴颜色
-      },
-      {
-        type: 'value',
-        name: '图片总大小 (MB)',
-        position: 'right',
-        axisLine: { show: true, lineStyle: { color: '#91CC75' } }, // 右轴颜色
-        splitLine: {
-          lineStyle: {
-            color: '#91CC75', // 调整网格线颜色
-            type: 'dashed', // 线条样式：可选 'solid', 'dashed', 'dotted'
-          },
-        },
-      },
-    ],
+    tooltip: {
+      trigger: 'item',
+      formatter: '{a} <br/>{b}: {c} ({d}%)',
+    },
+    legend: {
+      top: 'bottom',
+    },
     series: [
-      { name: '图片数量', type: 'bar', data: countData, yAxisIndex: 0 },
-      { name: '图片总大小', type: 'bar', data: sizeData, yAxisIndex: 1 },
+      {
+        name: '图片大小',
+        type: 'pie',
+        radius: '50%',
+        data: pieData,
+      },
     ],
   }
 })

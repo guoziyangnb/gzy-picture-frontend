@@ -16,7 +16,7 @@ import { getSpaceRankAnalyzeUsingPost } from '@/service/api/spaceAnalyzeControll
 interface Props {
   queryAll?: boolean
   queryPublic?: boolean
-  spaceId?: number
+  spaceId?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // 图表数据
-const dataList = ref<API.SpaceRankAnalyzeResponse[]>([])
+const dataList = ref<API.Space[]>([])
 const loading = ref(true)
 
 /**
@@ -37,6 +37,7 @@ const fetchData = async () => {
     queryAll: props.queryAll,
     queryPublic: props.queryPublic,
     spaceId: props.spaceId,
+    topN: 10, // 默认是10
   })
   if (res.data.code === 0) {
     dataList.value = res.data.data ?? []

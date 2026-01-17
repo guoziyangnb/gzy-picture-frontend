@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import VChart from 'vue-echarts'
 import 'echarts'
+import 'echarts-wordcloud'
 import { ref, watchEffect, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { getSpaceTagAnalyzeUsingPost } from '@/service/api/spaceAnalyzeController'
@@ -16,7 +17,7 @@ import { getSpaceTagAnalyzeUsingPost } from '@/service/api/spaceAnalyzeControlle
 interface Props {
   queryAll?: boolean
   queryPublic?: boolean
-  spaceId?: number
+  spaceId?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -54,25 +55,30 @@ watchEffect(() => {
 })
 
 const options = computed(() => {
-  const pieData = dataList.value.map((item) => ({
-    name: item.sizeRange,
+  const tagData = dataList.value.map((item) => ({
+    name: item.tag,
     value: item.count,
   }))
 
   return {
     tooltip: {
       trigger: 'item',
-      formatter: '{a} <br/>{b}: {c} ({d}%)',
-    },
-    legend: {
-      top: 'bottom',
+      formatter: (params: any) => `${params.name}: ${params.value} 次`,
     },
     series: [
       {
-        name: '图片大小',
-        type: 'pie',
-        radius: '50%',
-        data: pieData,
+        type: 'wordCloud',
+        gridSize: 10,
+        sizeRange: [12, 50], // 字体大小范围
+        rotationRange: [-90, 90],
+        shape: 'circle',
+        textStyle: {
+          color: () =>
+            `rgb(${Math.round(Math.random() * 255)}, ${Math.round(
+              Math.random() * 255,
+            )}, ${Math.round(Math.random() * 255)})`, // 随机颜色
+        },
+        data: tagData,
       },
     ],
   }

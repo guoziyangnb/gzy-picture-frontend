@@ -10,7 +10,7 @@
           <a-progress type="dashboard" :percent="data.sizeUsageRatio ?? 0" />
         </div>
       </a-card>
-      <a-card title="图片数量" style="width: 50%">
+      <a-card title="图片数量 （张）" style="width: 50%">
         <div style="height: 320px; text-align: center">
           <h3>{{ data.usedCount }} / {{ data.maxCount ?? '无限制' }}</h3>
           <a-progress type="dashboard" :percent="data.countUsageRatio ?? 0" />
@@ -29,7 +29,7 @@ import { formatSize } from '@/utils/index'
 interface Props {
   queryAll?: boolean
   queryPublic?: boolean
-  spaceId?: number
+  spaceId?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
