@@ -5,7 +5,12 @@
       <template #extra>
         <a-space>
           <a-segmented v-model:value="timeDimension" :options="timeDimensionOptions" />
-          <a-input-search placeholder="请输入用户 id" enter-button="搜索用户" @search="doSearch" />
+          <a-input-search
+            v-if="props.queryAll"
+            placeholder="请输入用户 id"
+            enter-button="搜索用户"
+            @search="doSearch"
+          />
         </a-space>
       </template>
     </a-card>
@@ -22,7 +27,7 @@ import { getSpaceUserAnalyzeUsingPost } from '@/service/api/spaceAnalyzeControll
 interface Props {
   queryAll?: boolean
   queryPublic?: boolean
-  spaceId?: number
+  spaceId?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,14 +35,9 @@ const props = withDefaults(defineProps<Props>(), {
   queryPublic: false,
 })
 
-// 图表数据
-const dataList = ref<API.SpaceUserAnalyzeResponse[]>([])
-const loading = ref(true)
-
 // 时间维度
 const timeDimension = ref<'day' | 'week' | 'month'>('day')
-// 用户ID
-const userId = ref<string>()
+// 分段选择器选项
 const timeDimensionOptions = [
   {
     label: '日',
@@ -52,12 +52,22 @@ const timeDimensionOptions = [
     value: 'month',
   },
 ]
+// 用户ID
+const userId = ref<string>()
+const doSearch = async (value: string) => {
+  userId.value = value
+}
+
+// 图表数据
+const dataList = ref<API.SpaceUserAnalyzeResponse[]>([])
+const loading = ref(true)
 
 /**
  * 加载数据
  */
 const fetchData = async () => {
   loading.value = true
+  // 增加搜索参数
   const res = await getSpaceUserAnalyzeUsingPost({
     queryAll: props.queryAll,
     queryPublic: props.queryPublic,
@@ -71,17 +81,6 @@ const fetchData = async () => {
     message.error('获取数据失败，' + res.data.message)
   }
   loading.value = false
-}
-
-const doSearch = async (value: string) => {
-  userId.value = value
-  const res = await getSpaceUserAnalyzeUsingPost({
-    queryAll: props.queryAll,
-    queryPublic: props.queryPublic,
-    spaceId: props.spaceId,
-    timeDimension: timeDimension.value,
-    userId: userId.value,
-  })
 }
 
 /**
