@@ -1,6 +1,6 @@
 <template>
-  <div class="space-category-analyze">
-    <a-card title="图库分类占用">
+  <div class="space-size-analyze">
+    <a-card title="空间图片大小分析">
       <v-chart :option="options" style="height: 320px; max-width: 100%" :loading="loading" />
     </a-card>
   </div>
@@ -11,7 +11,7 @@ import VChart from 'vue-echarts'
 import 'echarts'
 import { ref, watchEffect, computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { getSpaceCategoryAnalyzeUsingPost } from '@/service/api/spaceAnalyzeController'
+import { getSpaceSizeAnalyzeUsingPost } from '@/service/api/spaceAnalyzeController'
 
 interface Props {
   queryAll?: boolean
@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // 图表数据
-const dataList = ref<API.SpaceCategoryAnalyzeResponse[]>([])
+const dataList = ref<API.SpaceSizeAnalyzeResponse[]>([])
 const loading = ref(true)
 
 /**
@@ -33,7 +33,7 @@ const loading = ref(true)
  */
 const fetchData = async () => {
   loading.value = true
-  const res = await getSpaceCategoryAnalyzeUsingPost({
+  const res = await getSpaceSizeAnalyzeUsingPost({
     queryAll: props.queryAll,
     queryPublic: props.queryPublic,
     spaceId: props.spaceId,
