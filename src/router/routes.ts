@@ -21,6 +21,7 @@ const AddPictureBatchPage = () => import('@/pages/AddPictureBatchPage.vue')
 const AddSpacePage = () => import('@/pages/AddSpacePage.vue')
 const MySpacePage = () => import('@/pages/MySpacePage.vue')
 const SearchPicturePage = () => import('@/pages/SearchPicturePage.vue')
+const SpaceAnalyzePage = () => import('@/pages/SpaceAnalyzePage.vue')
 
 export const routes = [
   {
@@ -134,6 +135,15 @@ export const routes = [
     path: '/space/:id',
     name: '空间详情',
     component: SpaceDetailPage,
+    props: true,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: '/space_analyze',
+    name: '空间分析',
+    component: SpaceAnalyzePage,
     props: true,
     meta: {
       hideInMenu: true,
