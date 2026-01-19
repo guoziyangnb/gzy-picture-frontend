@@ -22,6 +22,7 @@ const AddSpacePage = () => import('@/pages/AddSpacePage.vue')
 const MySpacePage = () => import('@/pages/MySpacePage.vue')
 const SearchPicturePage = () => import('@/pages/SearchPicturePage.vue')
 const SpaceAnalyzePage = () => import('@/pages/SpaceAnalyzePage.vue')
+const SpaceUserManagePage = () => import('@/pages/admin/spaceUserManagePage.vue')
 
 export const routes = [
   {
@@ -144,6 +145,15 @@ export const routes = [
     path: '/space_analyze',
     name: '空间分析',
     component: SpaceAnalyzePage,
+    props: true,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: '/spaceUserManage/:id',
+    name: '空间成员管理',
+    component: SpaceUserManagePage,
     props: true,
     meta: {
       hideInMenu: true,
