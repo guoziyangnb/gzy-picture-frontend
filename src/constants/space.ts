@@ -21,10 +21,15 @@ export const SPACE_LEVEL_OPTIONS = Object.keys(SPACE_LEVEL_MAP).map((key) => {
   }
 })
 
-// 空间类型枚举
-export const SPACE_TYPE_ENUM = {
-  PRIVATE: 0,
-  TEAM: 1,
+// export const SPACE_TYPE_ENUM = {
+//   PRIVATE: 0,
+//   TEAM: 1,
+// } as const
+
+// 空间类型枚举 -> 定义成真正的枚举类型
+export enum SPACE_TYPE_ENUM {
+  PRIVATE = 0,
+  TEAM = 1,
 }
 
 // 空间类型文本映射

@@ -31,7 +31,7 @@
       <a-card title="空间级别介绍">
         <a-typography-paragraph>
           * 目前仅支持开通普通版，如需升级空间，请联系
-          <a href="https://codefather.cn" target="_blank">程序员鱼皮</a>。
+          <a href="https://gzyblog.guoziyang.com" target="_blank">guoziyangnb</a>。
         </a-typography-paragraph>
         <a-typography-paragraph v-for="spaceLevel in spaceLevelList" :key="spaceLevel.value">
           {{ spaceLevel.text }}： 大小 {{ formatSize(spaceLevel.maxSize) }}, 数量
@@ -69,8 +69,8 @@ const spaceLevelList = ref<API.SpaceLevel[]>([])
 const route = useRoute()
 // 空间类别
 const spaceType = computed(() => {
-  if (route.query?.type) {
-    return Number(route.query.type)
+  if (route.query?.type || space.value?.spaceType) {
+    return Number(route.query.type || space.value?.spaceType)
   }
   return SPACE_TYPE_ENUM.PRIVATE
 })
@@ -80,7 +80,7 @@ const fetchSpaceLevelList = async () => {
   const res = await listSpaceLevelUsingGet()
   if (res.data.code === 0 && res.data.data) {
     spaceLevelList.value = res.data.data
-    console.log('🚀 ~ fetchSpaceLevelList ~ spaceLevelList:', spaceLevelList)
+    // console.log('🚀 ~ fetchSpaceLevelList ~ spaceLevelList:', spaceLevelList)
   } else {
     message.error('加载空间级别失败，' + res.data.message)
   }
