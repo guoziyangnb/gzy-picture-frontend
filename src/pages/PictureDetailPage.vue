@@ -95,7 +95,7 @@
             <a-button v-if="canEdit" :icon="h(EditOutlined)" type="default" @click="doEdit">
               编辑
             </a-button>
-            <a-button v-if="canEdit" :icon="h(DeleteOutlined)" danger @click="doDelete">
+            <a-button v-if="canDelete" :icon="h(DeleteOutlined)" danger @click="doDelete">
               删除
             </a-button>
           </a-space>
@@ -127,6 +127,8 @@ import { PIC_REVIEW_STATUS_ENUM } from '@/constants/picture'
 import PageHeader from '@/components/PageHeader.vue'
 import { toHexColor } from '@/utils/colorTransform'
 import ShareModal from '@/components/ShareModal.vue'
+import { SPACE_PERMISSION_ENUM } from '@/constants/space'
+import { createPermissionChecker } from '@/utils/checkPermissions'
 
 interface Props {
   id: string | number
@@ -134,6 +136,10 @@ interface Props {
 
 const props = defineProps<Props>()
 const picture = ref<API.PictureVO>({})
+
+// 定义权限校验检查
+const canEdit = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_EDIT, picture)
+const canDelete = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_DELETE, picture)
 
 // 获取图片详情
 const fetchPictureDetail = async () => {
@@ -156,17 +162,17 @@ onMounted(() => {
 })
 
 const loginUserStore = useLoginUserStore()
-// 是否具有编辑权限
-const canEdit = computed(() => {
-  const loginUser = loginUserStore.loginUser
-  // 未登录不可编辑
-  if (!loginUser.id) {
-    return false
-  }
-  // 仅本人或管理员可编辑
-  const user = picture.value.user || {}
-  return loginUser.id === user.id || loginUser.userRole === 'admin'
-})
+// // 是否具有编辑权限
+// const canEdit = computed(() => {
+//   const loginUser = loginUserStore.loginUser
+//   // 未登录不可编辑
+//   if (!loginUser.id) {
+//     return false
+//   }
+//   // 仅本人或管理员可编辑
+//   const user = picture.value.user || {}
+//   return loginUser.id === user.id || loginUser.userRole === 'admin'
+// })
 
 // 是否具有编辑权限
 const canReview = computed(() => {
