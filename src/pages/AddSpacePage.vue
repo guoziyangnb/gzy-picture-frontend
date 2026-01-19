@@ -1,7 +1,7 @@
 <template>
   <div id="addSpacePage">
     <h1 style="margin-bottom: 16px">
-      {{ route.query?.id ? '修改空间' : '创建空间' }}
+      {{ route.query?.id ? '修改' : '创建' }} {{ SPACE_TYPE_MAP[spaceType] }}
     </h1>
 
     <!-- 这里必须要指定name，跟model一样，包括里面的<a-form-item></a-form-item>,否则上传的值会有点问题 -->
@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -54,6 +54,7 @@ import {
 } from '@/service/api/spaceController'
 import { SPACE_LEVEL_OPTIONS } from '@/constants/space'
 import { formatSize } from '@/utils/index'
+import { SPACE_TYPE_ENUM, SPACE_TYPE_MAP } from '@/constants/space'
 
 const space = ref<API.SpaceVO>()
 const spaceForm = reactive<API.SpaceAddRequest | API.SpaceEditRequest>({})
@@ -63,6 +64,16 @@ const loading = ref(false)
 const router = useRouter()
 
 const spaceLevelList = ref<API.SpaceLevel[]>([])
+
+// 获取页面信息，比如页面路由、页面的元信息
+const route = useRoute()
+// 空间类别
+const spaceType = computed(() => {
+  if (route.query?.type) {
+    return Number(route.query.type)
+  }
+  return SPACE_TYPE_ENUM.PRIVATE
+})
 
 // 获取空间级别
 const fetchSpaceLevelList = async () => {
@@ -95,6 +106,7 @@ const handleSubmit = async (values: any) => {
   } else {
     res = await addSpaceUsingPost({
       ...spaceForm,
+      spaceType: spaceType.value,
     })
   }
   if (res.data.code === 0 && res.data.data) {
@@ -108,9 +120,6 @@ const handleSubmit = async (values: any) => {
   }
   loading.value = false
 }
-
-// 获取页面信息，比如页面路由、页面的元信息
-const route = useRoute()
 
 // 获取空间的数据
 const getOldSpace = async () => {
