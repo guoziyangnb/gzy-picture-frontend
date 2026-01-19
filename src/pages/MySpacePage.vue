@@ -10,6 +10,7 @@ import { useRouter } from 'vue-router'
 import { listSpaceVoByPageUsingPost } from '@/service/api/spaceController'
 import { message } from 'ant-design-vue'
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
+import { SPACE_TYPE_ENUM } from '@/constants/space'
 
 const router = useRouter()
 const loginUserStore = useLoginUserStore()
@@ -35,6 +36,7 @@ const checkUserSpace = async () => {
     userId: loginUser.id,
     current: 1,
     pageSize: 1,
+    spaceType: SPACE_TYPE_ENUM.PRIVATE, // 默认是私有空间
   })
   if (res.data.code === 0) {
     if ((res.data.data?.records?.length as number) > 0) {

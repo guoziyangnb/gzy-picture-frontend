@@ -80,23 +80,27 @@ import {
 import { deletePictureUsingPost } from '@/service/api/pictureController'
 import { message } from 'ant-design-vue'
 import ShareModal from './ShareModal.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 interface Props {
   dataList?: API.PictureVO[]
   loading?: boolean
   showOp?: boolean
   onReload?: () => void
+  canEdit?: boolean
+  canDelete?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   dataList: () => [], // 列表的默认值必须是箭头函数形式
   loading: false,
   showOp: true,
+  canEdit: true,
+  canDelete: true,
 })
 
 // 定义操作按钮配置
-const actions = [
+const baseActions = [
   {
     key: 'share',
     label: '分享',
@@ -117,6 +121,8 @@ const actions = [
     icon: EditOutlined,
     color: 'gold',
     handler: (picture: API.PictureVO, e: PointerEvent) => doEdit(picture, e),
+    // 标记需要根据canEdit控制显示
+    permissionKey: 'canEdit',
   },
   {
     key: 'delete',
@@ -124,8 +130,21 @@ const actions = [
     icon: DeleteOutlined,
     color: 'red',
     handler: (picture: API.PictureVO, e: PointerEvent) => doDelete(picture, e),
+    // 标记需要根据canDelete控制显示
+    permissionKey: 'canDelete',
   },
 ]
+
+// 响应式的操作按钮列表（根据props动态过滤）
+const actions = computed(() => {
+  return baseActions.filter((action) => {
+    // 没有permissionKey的按钮默认显示
+    if (!action.permissionKey) return true
+
+    // 根据permissionKey匹配props中的权限值
+    return props[action.permissionKey as keyof Props] === true
+  })
+})
 
 const router = useRouter()
 // 跳转至图片详情

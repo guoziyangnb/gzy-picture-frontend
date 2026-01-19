@@ -10,10 +10,16 @@
     <a-flex justify="space-between">
       <h2>{{ space.spaceName }}（{{ SPACE_TYPE_MAP[space.spaceType as SPACE_TYPE_ENUM] }}）</h2>
       <a-space size="middle">
-        <a-button type="primary" :href="`/add_picture?spaceId=${id}`" target="_blank">
+        <a-button
+          v-if="canUploadPicture"
+          type="primary"
+          :href="`/add_picture?spaceId=${id}`"
+          target="_blank"
+        >
           + 创建图片
         </a-button>
         <a-button
+          v-if="canManageSpaceUser"
           type="primary"
           ghost
           :icon="h(TeamOutlined)"
@@ -23,6 +29,7 @@
           成员管理
         </a-button>
         <a-button
+          v-if="canManageSpaceUser"
           type="primary"
           ghost
           :icon="h(BarChartOutlined)"
@@ -32,6 +39,7 @@
           空间分析
         </a-button>
         <a-button
+          v-if="canEditPicture"
           type="primary"
           style="background-color: orange"
           :icon="h(EditOutlined)"
@@ -60,7 +68,14 @@
     </a-form-item>
 
     <!-- 图片列表 -->
-    <PictureList :dataList="dataList" :loading="loading" :shpwOp="true" :onReload="fetchData" />
+    <PictureList
+      :dataList="dataList"
+      :loading="loading"
+      :shpwOp="true"
+      :onReload="fetchData"
+      :canEdit="canEditPicture"
+      :canDelete="canDeletePicture"
+    />
     <a-pagination
       style="text-align: right"
       v-model:current="searchParams.current"
@@ -93,7 +108,8 @@ import { ColorPicker } from 'vue3-colorpicker'
 import 'vue3-colorpicker/style.css'
 import BatchEditPictureModal from '@/components/BatchEditPictureModal.vue'
 import { EditOutlined, BarChartOutlined, TeamOutlined } from '@ant-design/icons-vue'
-import { SPACE_TYPE_MAP, SPACE_TYPE_ENUM } from '@/constants/space'
+import { SPACE_TYPE_MAP, SPACE_TYPE_ENUM, SPACE_PERMISSION_ENUM } from '@/constants/space'
+import { createPermissionChecker } from '@/utils/checkPermissions'
 
 interface Props {
   id: string | number
@@ -101,6 +117,12 @@ interface Props {
 
 const props = defineProps<Props>()
 const space = ref<API.SpaceVO>({})
+
+// 定义权限检查
+const canManageSpaceUser = createPermissionChecker(SPACE_PERMISSION_ENUM.SPACE_USER_MANAGE, space)
+const canUploadPicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_UPLOAD, space)
+const canEditPicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_EDIT, space)
+const canDeletePicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_DELETE, space)
 
 // ------- 获取空间详情 --------
 const fetchSpaceDetail = async () => {
