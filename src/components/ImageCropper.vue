@@ -39,6 +39,7 @@
         <a-button v-if="canExitEdit" danger ghost @click="exitEdit">退出编辑</a-button>
       </a-space>
     </div>
+    <div style="margin-bottom: 16px" />
     <!-- 图片操作 -->
     <div class="image-cropper-actions">
       <a-space>
