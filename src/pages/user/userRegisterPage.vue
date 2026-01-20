@@ -29,19 +29,22 @@
         <RouterLink to="/user/login">去登录</RouterLink>
       </div>
       <a-form-item>
-        <a-button type="primary" html-type="submit" style="width: 100%">注册</a-button>
+        <a-button :loading="loading" type="primary" html-type="submit" style="width: 100%"
+          >注册</a-button
+        >
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { userRegisterUsingPost } from '@/service/api/userController'
 import { message } from 'ant-design-vue'
 
 const router = useRouter()
+const loading = ref(false)
 
 const formState = reactive<API.UserRegisterRequest>({
   userAccount: '',
@@ -54,6 +57,7 @@ const formState = reactive<API.UserRegisterRequest>({
  * @param values
  */
 const handleSubmit = async (values: any) => {
+  loading.value = true
   if (values.userPassword !== values.checkPassword) {
     message.error('两次密码不一致')
     formState.userPassword = ''
@@ -70,6 +74,7 @@ const handleSubmit = async (values: any) => {
   } else {
     message.error('注册失败，' + res.data.message)
   }
+  loading.value = false
 }
 </script>
 

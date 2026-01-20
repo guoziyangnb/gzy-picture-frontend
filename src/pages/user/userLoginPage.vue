@@ -21,14 +21,16 @@
         <RouterLink to="/user/register">去注册</RouterLink>
       </div>
       <a-form-item>
-        <a-button type="primary" html-type="submit" style="width: 100%">登录</a-button>
+        <a-button :loading="loading" type="primary" html-type="submit" style="width: 100%"
+          >登录</a-button
+        >
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
 import { userLoginUsingPost } from '@/service/api/userController'
@@ -36,6 +38,7 @@ import { message } from 'ant-design-vue'
 
 const router = useRouter()
 const loginUserStore = useLoginUserStore()
+const loading = ref(false)
 
 const formState = reactive<API.UserLoginRequest>({
   userAccount: '',
@@ -47,6 +50,7 @@ const formState = reactive<API.UserLoginRequest>({
  * @param values
  */
 const handleSubmit = async (values: any) => {
+  loading.value = true
   const res = await userLoginUsingPost(values)
   // 登录成功，把登录态保存到全局状态中
   if (res.data.code === 0 && res.data.data) {
@@ -59,6 +63,7 @@ const handleSubmit = async (values: any) => {
   } else {
     message.error('登录失败，' + res.data.message)
   }
+  loading.value = false
 }
 </script>
 
