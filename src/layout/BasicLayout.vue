@@ -16,7 +16,8 @@ import GlobalSider from '@/components/GlobalSider.vue'
       </a-layout>
 
       <a-layout-footer class="footer">
-        <a href="https://www.codefather.cn" target="_blank"> 编程导航 by 程序员 ———— 阳神 </a>
+        © 2026 阳神云图库 created by
+        <a href="https://gzyblog.guoziyang.com" target="_blank"> guoziyangnb </a>
       </a-layout-footer>
     </a-layout>
   </div>
