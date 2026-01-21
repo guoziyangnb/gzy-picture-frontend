@@ -5,11 +5,11 @@ import { message } from 'ant-design-vue'
 // const DEV_BASE_URL = 'http://localhost:8123'
 // const PROD_BASE_URL = 'https://XXX.com'
 
-const AP_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 // 创建 Axios 实例
 const myAxios = axios.create({
-  baseURL: AP_BASE_URL,
+  baseURL: API_BASE_URL,
   timeout: 60000,
   withCredentials: true, // 是否携带凭证
 })
